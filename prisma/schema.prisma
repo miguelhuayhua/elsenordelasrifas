@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Rifa {
+  id            String        @id @default(auto()) @map("_id") @db.ObjectId
+  monto         Float
+  ganador       String
+  participantes Int
+  codigoempiezo Int
+  Ticket        Ticket[]
+  DetalleRifa   DetalleRifa[]
+  createdAt     DateTime      @default(now())
+}
+
+model DetalleRifa {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  rifaId     String   @db.ObjectId
+  productoId String   @db.ObjectId
+  Rifa       Rifa     @relation(fields: [rifaId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  Producto   Producto @relation(fields: [productoId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  podio      Int
+}
+
+model Producto {
+  id          String        @id @default(auto()) @map("_id") @db.ObjectId
+  nombre      String
+  estado      Boolean       @default(true)
+  imagen      String
+  DetalleRifa DetalleRifa[]
+  createdAt   DateTime      @default(now())
+}
+
+model Ticket {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  Rifa      Rifa     @relation(fields: [rifaId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  rifaId    String   @db.ObjectId
+  codigo    Int
+  createdAt DateTime @default(now())
+  nombre    String
+}
+
+model Usuario {
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  usuario  String @unique
+  password String
+}
