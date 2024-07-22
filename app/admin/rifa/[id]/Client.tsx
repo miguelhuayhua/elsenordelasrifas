@@ -46,40 +46,22 @@ export default function Client({ Rifa }: Props) {
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <H1Bold sx={{ fontSize: 20, mb: 2 }}>Datos de la rifa</H1Bold>
-                    <Stack direction='row' spacing={2} mb={2}>
-                        <Controller
-                            name={"codigomin"}
-                            control={control}
-                            rules={{ required: 'Código mínimo obligatorio' }}
-                            render={({ field: { ref, ...field } }) => (
-                                <InputBox
-                                    {...field}
-                                    inputRef={ref}
-                                    label='Código Máximo'
-                                    variant='standard'
-                                    helperText={errors.codigomax?.message}
-                                    error={!!errors.codigomax}
-                                    onChange={ev => field.onChange(parsePhone(ev.target.value))}
-                                />
-                            )}
-                        />
-                        <Controller
-                            name={"codigomax"}
-                            control={control}
-                            rules={{ required: 'Código máximo obligatorio' }}
-                            render={({ field: { ref, ...field } }) => (
-                                <InputBox
-                                    {...field}
-                                    inputRef={ref}
-                                    label='Código Máximo'
-                                    variant='standard'
-                                    helperText={errors.codigomax?.message}
-                                    error={!!errors.codigomax}
-                                    onChange={ev => field.onChange(parsePhone(ev.target.value))}
-                                />
-                            )}
-                        />
-                    </Stack>
+                    <Controller
+                        name={"codigoempiezo"}
+                        control={control}
+                        rules={{ required: 'Código mínimo obligatorio' }}
+                        render={({ field: { ref, ...field } }) => (
+                            <InputBox
+                                {...field}
+                                inputRef={ref}
+                                label='Código empiezo'
+                                variant='standard'
+                                helperText={errors.codigoempiezo?.message}
+                                error={!!errors.codigoempiezo}
+                                onChange={ev => field.onChange(parsePhone(ev.target.value))}
+                            />
+                        )}
+                    />
                     <Controller
                         name={"monto"}
                         control={control}

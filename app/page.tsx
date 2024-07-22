@@ -23,7 +23,7 @@ export default function Home() {
       <Grid container spacing={5}>
         {
           Rifas.map(rifa => (
-            <Grid item xs={2}>
+            <Grid key={rifa.id} item xs={2}>
               <RifaBox Rifa={rifa} />
             </Grid>
           ))

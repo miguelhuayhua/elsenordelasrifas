@@ -57,7 +57,7 @@ export default function Home() {
                             nombre: value.monto,
                             Productos: (<Box>
                                 {value.DetalleRifa.map(value => (
-                                    <Normal>{value.Producto.nombre}</Normal>
+                                    <Normal key={value.id}>{value.Producto.nombre}</Normal>
                                 ))}
                             </Box>),
                             '': (
