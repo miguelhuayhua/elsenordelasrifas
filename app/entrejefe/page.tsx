@@ -21,15 +21,22 @@ export default function Home() {
 
     return (
 
-        <Box px={{ xs: 1, md: 5, lg: 10, xl: 20 }} mt={5}>
+        <Box px={{ xs: 1, md: 5, lg: 10, xl: 20 }} mt={5} >
             <H1Bold sx={{ textAlign: 'center' }}>
                 Ingresa tus credenciales
             </H1Bold>
             <Box
                 component={'form'}
                 onSubmit={handleSubmit((data) => {
-                    signIn('credentials', { redirect: true, callbackUrl: '/admin', ...data })
+                    signIn('credentials', { redirect: true, callbackUrl: '/admin', ...data }).then(res => {
+                        console.log(res)
+                    }).catch(error => {
+                        console.log(error)
+                    })
                 })}
+                maxWidth={400}
+                mx='auto'
+                mt={5}
             >
                 <Controller
                     rules={{ required: 'No puede quedar vacio' }}
