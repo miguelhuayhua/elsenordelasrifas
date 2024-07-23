@@ -6,7 +6,7 @@ import { useModal } from '@/providers/ModalProvider';
 import { useSnackbar } from '@/providers/SnackBarProvider';
 import { DetalleRifa, Producto, Rifa, Ticket } from '@prisma/client';
 import { Bold, H1Bold } from '@/app/componentes/Letras';
-import { BoxPaper, ButtonFilled, ButtonOutline, ButtonSimple, InputBox } from '@/app/componentes/Cajas';
+import { BoxPaper, ButtonFilled, ButtonOutline, ButtonSimple, ChipBox, InputBox } from '@/app/componentes/Cajas';
 import { parseNumber, parsePhone } from '@/app/utils/filtros';
 import { useState } from 'react';
 import axios from 'axios';
@@ -18,6 +18,7 @@ import dayjs from 'dayjs';
 import { TbReload, TbSquareRoundedNumber1Filled, TbSquareRoundedNumber2Filled, TbSquareRoundedNumber3Filled } from 'react-icons/tb';
 import { useRouter } from 'next/navigation';
 import { red } from '@mui/material/colors';
+import { BiTrash } from 'react-icons/bi';
 interface Props {
     Rifa: Rifa & { Ticket: Ticket[], DetalleRifa: (DetalleRifa & { Producto: Producto })[] }
 }
@@ -77,9 +78,10 @@ export default function Client({ Rifa }: Props) {
 
                 </Grid>
                 <Grid item xs={12}>
-                    <H1Bold sx={{ fontSize: 22 }}>
+                    <H1Bold sx={{ fontSize: 22, mb: 2 }}>
                         Modificar rifa : {Rifa.id}
                     </H1Bold>
+                    <ChipBox label={`Estado: ${Rifa.modo?.toString()}`} />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                     <H1Bold sx={{ fontSize: 20, mb: 2 }}>Datos de la rifa</H1Bold>
@@ -159,15 +161,12 @@ export default function Client({ Rifa }: Props) {
                         </Stack>
                     </BoxPaper>
                 </Grid>
-                {
-                    isDirty ?
-                        <Grid item xs={12}>
-                            <ButtonFilled
-                                sx={{ float: 'right' }} type='submit'>
-                                Guardar cambios
-                            </ButtonFilled>
-                        </Grid> : null
-                }
+                <Grid item xs={12}>
+                    <ButtonFilled
+                        sx={{ float: 'right' }} type='submit'>
+                        Guardar cambios
+                    </ButtonFilled>
+                </Grid>
                 <Grid item xs={12}>
                     <H1Bold sx={{ fontSize: 20, mb: 2 }}>Participantes</H1Bold>
 
@@ -179,7 +178,19 @@ export default function Client({ Rifa }: Props) {
                     <Tabla hasPagination data={Rifa.Ticket.map(value => ({
                         'Código': value.codigo,
                         'Participante': value.nombre || 'anónimo',
-                        'Se unío el:': dayjs(value.createdAt).format('DD/MM/YYYY - HH:mm:ss')
+                        'Se unío el:': dayjs(value.createdAt).format('DD/MM/YYYY - HH:mm:ss'),
+                        '': (<ButtonOutline onClick={() => {
+                            openModal({
+                                titulo: '¿Continuar?',
+                                content: 'Se eliminará el ticket',
+                                callback() {
+                                    axios.post('/api/ticket/eliminar', { id: value.id }).then(res => {
+                                        openSnackbar(res.data.mensaje);
+                                    });
+                                    return true;
+                                }
+                            })
+                        }} ><BiTrash fontSize={18} /></ButtonOutline>)
                     }))} />
                     <Bold mt={4}>
                         Total acumulado: {Rifa.Ticket.length * Rifa.monto} BOB

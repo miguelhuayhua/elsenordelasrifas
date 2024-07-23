@@ -152,65 +152,21 @@ const Tabla = ({
                                                     let value = row[column.id];
                                                     if (React.isValidElement(value)) {
                                                         return (
-                                                            <TableCell
-                                                                sx={{ py: 0, borderBottom: "none" }}
-                                                                key={Math.random()}
-                                                            >
+                                                            <TableCell key={Math.random()}>
                                                                 {value}
                                                             </TableCell>
                                                         );
                                                     }
-                                                    if (typeof value == 'boolean') {
-                                                        return (
-                                                            <TableCell
-                                                                sx={{ py: 0, borderBottom: "none" }}
-                                                                key={Math.random()}
-                                                            >
-                                                                {
-                                                                    value ?
-                                                                        <ChipBox label="Sí" />
-                                                                        :
-                                                                        <ChipBox label="No" />
-                                                                }
-                                                            </TableCell>
-                                                        );
-                                                    }
-                                                    else if (column.id == 'avatar') {
-                                                        return (
-                                                            <TableCell
-                                                                sx={{
-                                                                    width: 0,
-                                                                    py: 2,
-                                                                    borderBottom: "none"
-                                                                }}
-                                                                key={Math.random()}
-                                                            >
-                                                                <Image style={{ borderRadius: 10 }} src={value} width={50} height={50} layout='fixed' />
-                                                            </TableCell>
-                                                        )
-                                                    }
                                                     else if (typeof value != 'object') {
                                                         return (
-                                                            <TableCell
-                                                                sx={{
-                                                                    fontWeight: 500,
-                                                                    fontSize: 14,
-                                                                    py: 1,
-                                                                    borderBottom: "none",
-
-                                                                }}
-                                                                key={Math.random()}
-                                                            >
+                                                            <TableCell key={Math.random()}>
                                                                 {value}
                                                             </TableCell>
                                                         );
                                                     }
                                                 })}
                                                 {edit || admin || onRow ?
-                                                    <TableCell
-                                                        key={Math.random()}
-                                                        sx={{ py: 1, borderBottom: "none" }}
-                                                    >
+                                                    <TableCell>
                                                         <ClickAwayListener touchEvent={false} onClickAway={() => setOpen(null)}>
                                                             <Box>
                                                                 <Tooltip

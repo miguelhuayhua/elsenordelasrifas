@@ -4,7 +4,7 @@ import { GiPodiumSecond, GiPodiumThird, GiPodiumWinner } from "react-icons/gi";
 import { DetalleRifa, Producto, Rifa, Ticket } from '@prisma/client';
 import { Bold, H1Bold, Normal } from '@/app/componentes/Letras';
 import Image from 'next/legacy/image';
-import { indigo, red } from '@mui/material/colors';
+import { amber, indigo, red } from '@mui/material/colors';
 import { LuRuler } from "react-icons/lu";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { ButtonFilled, ButtonOutline, ChipBox } from '@/app/componentes/Cajas';
@@ -30,7 +30,7 @@ export default function Client({ Rifa }: Props) {
         <>
             <Box px={{ xs: 1, sm: 5 }}>
                 <Box mx='auto' display='flex' justifyContent='center'>
-                    <Image src='/senorrifa.png' width={120} height={100} alt="logo señor de la rifa" />
+                    <Image src='/senordelasrifas.png' width={220} height={200} alt="logo señor de la rifa" />
                 </Box>
                 <Stack direction='row' spacing={4} sx={{ display: 'flex', justifyContent: 'center' }}>
                     <ButtonOutline onClick={() => setOpen1(true)}>
@@ -100,6 +100,18 @@ export default function Client({ Rifa }: Props) {
                             <H1Bold sx={{ fontSize: 20 }}>
                                 Participación: <span style={{ color: red[400] }}>{Rifa.monto}</span> Bs.
                             </H1Bold>
+                            {
+                                Rifa.ganador ?
+                                    <Normal sx={{ color: '#f7b800' }}><b>Ganador: {Rifa.ganador}</b></Normal> : null
+                            }
+                            {
+                                Rifa.segundo ?
+                                    <Normal sx={{ color: '#a0a0a0' }}><b>2do lugar: {Rifa.segundo}</b></Normal> : null
+                            }
+                            {
+                                Rifa.tercero ?
+                                    <Normal sx={{ color: '#ce783c' }}><b>3er lugar: {Rifa.tercero}</b></Normal> : null
+                            }
                             <Bold>
                                 Participantes requeridos: <span style={{ color: indigo[400] }}>{Rifa.Ticket.length}</span> de <span style={{ fontSize: 25, color: red[400] }}>{Rifa.participantes}</span>
                             </Bold>
@@ -120,7 +132,7 @@ export default function Client({ Rifa }: Props) {
                     </Grid>
                 </Grid>
                 <Grid xs={12} sm={6} px={2}>
-                    <H1Bold>
+                    <H1Bold sx={{ textAlign: 'center' }}>
                         Lista de participantes
                     </H1Bold>
                     <List>

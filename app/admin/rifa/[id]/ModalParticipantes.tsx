@@ -1,20 +1,15 @@
 'use client';
 import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import { Box, Divider, Grid, Stack } from '@mui/material';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { Box, Grid } from '@mui/material';
+import { Controller, useForm } from 'react-hook-form';
 import { useModal } from '@/providers/ModalProvider';
 import { useSnackbar } from '@/providers/SnackBarProvider';
-import { DetalleRifa, Producto, Rifa, Ticket } from '@prisma/client';
-import { Bold, H1Bold, Normal } from '@/app/componentes/Letras';
-import { BoxPaper, ButtonFilled, ButtonSimple, InputBox } from '@/app/componentes/Cajas';
+import { Ticket } from '@prisma/client';
+import { H1Bold, Normal } from '@/app/componentes/Letras';
+import { ButtonFilled, InputBox } from '@/app/componentes/Cajas';
 import { QRCode } from 'react-qrcode-logo';
-import { purple } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
-
+import { useEffect } from 'react';
 import axios from 'axios';
-import dayjs from 'dayjs';
-import Image from 'next/image';
 interface Props {
     open: boolean;
     setOpen: any;

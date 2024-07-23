@@ -23,13 +23,13 @@ export default function ModalReglas({ setOpen, open }: Props) {
                         Reglas del juego
                     </H1Bold>
                     <Normal>
-                       Las reglas son las siguientes:
+                        Las reglas son las siguientes:
                     </Normal>
                     <ul>
-
                         <li>
                             <Normal>
-                                Hola
+                                Los participantes ganadores deben confirmar su ticket una vez elegidos,
+                                caso contrario no se podrá realizar la entrega en fechas acordadas.
                             </Normal>
                         </li>
                     </ul>

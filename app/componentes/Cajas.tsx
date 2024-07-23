@@ -135,27 +135,28 @@ const ButtonFilled = styled(Button)(() => {
         fontWeight: 600,
         fontSize: 16,
         minWidth: 0,
-        borderRadius: 18,
+        borderRadius: 16,
         background: indigo[400], color: grey[50],
         "&:hover": { background: indigo[300] },
         textTransform: 'none'
     }
 });
 
-const ButtonOutline = styled(Button)(({ theme }) => {
+const ButtonOutline = styled(Button)(() => {
     return {
         fontSize: 14,
         borderRadius: 18,
-        color: red[300],
+        color: red[400],
         border: `1px solid ${red[50]}`,
         textTransform: 'none',
         fontWeight: 600,
         minWidth: 0,
+        minHeight: 0
     }
 });
 
 
-const ChipBox = styled(Chip)(({ theme }) => ({
+const ChipBox = styled(Chip)(() => ({
     borderRadius: 7,
     height: 30,
     background: 'white',
@@ -205,10 +206,11 @@ const ButtonSimple = styled(Button)(({ theme }) => {
     return {
         fontWeight: 600,
         color: grey[50],
+        fontSize: 16,
         minWidth: 0,
         textTransform: 'none',
         border: 'none',
-        borderRadius: 10,
+        borderRadius: 16,
         "&:hover": {
             color: indigo[500]
         }

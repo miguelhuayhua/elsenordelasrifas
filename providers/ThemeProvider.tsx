@@ -11,10 +11,10 @@ function ThemeProviderCustom({ children }: any) {
             mode: 'light',
             background: { default: '#fff', paper: '#fff' },
             primary: { main: indigo[600] },
-            text: { primary: grey[800], secondary: indigo[400], disabled: grey[500] },
+            text: { primary: grey[800], secondary: indigo[400], disabled: grey[700] },
             divider: indigo[200],
             error: { main: red[600] },
-            action: { disabled: grey[200] }
+            action: { disabled: grey[200] },
         },
         typography: {
             fontFamily: karla.style.fontFamily

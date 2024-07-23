@@ -11,6 +11,9 @@ model Rifa {
   id            String        @id @default(auto()) @map("_id") @db.ObjectId
   monto         Float
   ganador       String
+  segundo       String?
+  tercero       String?
+  totalIngresos Float         @default(0)
   participantes Int
   codigoempiezo Int
   Ticket        Ticket[]
@@ -45,6 +48,7 @@ model Ticket {
   codigo    Int
   createdAt DateTime? @default(now())
   nombre    String
+  estado    Boolean   @default(true)
 }
 
 model Usuario {

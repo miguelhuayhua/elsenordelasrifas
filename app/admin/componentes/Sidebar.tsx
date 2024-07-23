@@ -1,6 +1,7 @@
 'use client';
 import { ButtonOutline } from "@/app/componentes/Cajas";
 import { Box, Stack, SwipeableDrawer, useMediaQuery, useTheme } from "@mui/material";
+import { grey } from "@mui/material/colors";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { CgMenuLeft } from 'react-icons/cg';
@@ -43,8 +44,8 @@ export default function Sidebar() {
 
             <ButtonOutline
                 onClick={() => { setMove(!move); }}
-                sx={{ position: 'fixed', top: 17, left: 15, zIndex: 20, display: { xs: pathname.includes('juego') ? 'none' : 'block', md: 'none' } }}>
-                <CgMenuLeft fontSize={27} />
+                sx={{ position: 'fixed', bgcolor: grey[50], height: 45, width: 45, top: 17, left: 15, zIndex: 20, display: { xs: pathname.includes('juego') ? 'none' : 'block', md: 'none' } }}>
+                <CgMenuLeft fontSize={30} />
             </ButtonOutline >
             {
                 md ?
