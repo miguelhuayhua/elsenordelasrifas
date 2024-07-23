@@ -1,21 +1,12 @@
 'use client';
 import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
 import { Box } from '@mui/material';
-import { IoMdCamera } from "react-icons/io";
-import { Controller, UseFieldArrayAppend, UseFieldArrayRemove, useForm, UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { useModal } from '@/providers/ModalProvider';
-import { useSnackbar } from '@/providers/SnackBarProvider';
+import { UseFormSetValue, UseFormWatch } from 'react-hook-form';
 import { DetalleRifa, Producto } from '@prisma/client';
-import { Bold, H1Bold, Small } from '@/app/componentes/Letras';
-import { BoxPaper, BoxVertical, ButtonFilled, ButtonSimple, InputBox } from '@/app/componentes/Cajas';
-import { parsePhone, toUpperCase } from '@/app/utils/filtros';
-import Image from 'next/image';
-import { useFilePicker } from "use-file-picker";
-import { useEdgeStore } from '@/providers/EdgeStoreProvider';
-import { amber, grey, purple } from '@mui/material/colors';
+import { Bold, H1Bold } from '@/app/componentes/Letras';
+import { ButtonFilled, ButtonOutline } from '@/app/componentes/Cajas';
+import Image from 'next/legacy/image';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Tabla from '../componentes/Tabla';
 interface Props {
@@ -56,7 +47,6 @@ export default function ModalProductoRifa({ Podio, setPodio, setValue, watch }: 
                 keepMounted={false}
                 maxWidth='xs'
                 fullWidth
-                PaperProps={{ sx: { borderRadius: 4, background: purple[900], backgroundImage: 'none' } }}
                 onClose={() => { setPodio({ open: false, nro: 0 }) }}
             >
                 <Box p={2} >
@@ -78,11 +68,11 @@ export default function ModalProductoRifa({ Podio, setPodio, setValue, watch }: 
                                     </Box>
                                 </Box>
                             ),
-                            '': (<ButtonFilled
+                            '': (<ButtonOutline
                                 onClick={() => {
                                     setValue('DetalleRifa', [...watch('DetalleRifa').filter(value => value.podio != Podio.nro), { productoId: value.id, id: '', rifaId: '', podio: Podio.nro, Producto: value }])
                                     setPodio({ open: false, nro: 0 })
-                                }}>Seleccionar</ButtonFilled>)
+                                }}>Seleccionar</ButtonOutline>)
                         }))}>
                     </Tabla>
                 </Box>

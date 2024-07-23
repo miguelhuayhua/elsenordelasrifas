@@ -87,7 +87,6 @@ const Tabla = ({
                                 width: "30%",
                                 minWidth: 200
                             }}
-                            variant='standard'
                             size='small'
                             onChange={(ev) => {
                                 setData(filtrarValorEnArray(data, ev.target.value));
@@ -116,7 +115,6 @@ const Tabla = ({
                                                 style={{
                                                     textTransform: 'capitalize',
                                                     fontSize: 16,
-                                                    fontFamily: 'inherit',
                                                     fontWeight: 600,
                                                     border: 'none'
                                                 }}

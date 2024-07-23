@@ -1,5 +1,5 @@
 import { Box, Button, Checkbox, Chip, InputLabel, MenuItem, Select, Slider, Switch, TextField, styled } from "@mui/material";
-import { amber, blueGrey, grey } from "@mui/material/colors";
+import { amber, blueGrey, grey, red, indigo, pink } from "@mui/material/colors";
 import { DatePicker, MobileTimePicker } from "@mui/x-date-pickers";
 
 const BoxVertical = styled(Box)(() =>
@@ -21,7 +21,7 @@ const BoxPaper = styled(Box)(({ theme }) =>
 ({
     borderRadius: "15px !important",
     overflow: 'hidden',
-    border: `1px solid ${amber[900]}`,
+    border: `1px solid ${indigo[100]}`,
     background: grey[50]
 
 }));
@@ -109,12 +109,12 @@ const InputBox = styled(TextField)(() => {
             fontFamily: 'inherit',
             fontWeight: 500,
             "&::before": {
-                borderColor: grey[50]
+                borderColor: indigo[400]
             }
         },
         ".MuiFormLabel-root": {
             fontWeight: 700,
-            color: grey[50]
+            color: indigo[400]
         }
     }
 });
@@ -146,21 +146,20 @@ const ButtonFilled = styled(Button)(({ theme }) => {
         fontSize: 16,
         minWidth: 0,
         borderRadius: 18,
-        background: 'white', color: grey[900], "&:hover": { background: grey[100] },
+        background: indigo[400], color: grey[50], "&:hover": { background: indigo[300] },
         textTransform: 'none'
     }
 });
 
 const ButtonOutline = styled(Button)(({ theme }) => {
     return {
-        background: theme.palette.mode == 'light' ? grey[200] : '#333',
         fontSize: 14,
         borderRadius: 18,
-        color: theme.palette.mode == 'light' ? grey[900] : grey[50],
+        color: red[400],
+        border: `1px solid ${red[50]}`,
         textTransform: 'none',
-        fontFamily: 'inherit',
         fontWeight: 600,
-        minWidth: 0
+        minWidth: 0,
     }
 });
 
@@ -170,16 +169,10 @@ const ChipBox = styled(Chip)(({ theme }) => ({
     padding: "0",
     height: 22,
     minWidth: 0,
-    marginLeft: 5,
-    background: theme.palette.mode == 'light' ? 'white' : grey[900],
-    border: theme.palette.mode == 'light' ? '1px solid #888' : '1px solid #666',
-    fontWeight: 400,
-    fontSize: 11,
-    ".MuiChip-label": {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
+    background: 'white',
+    border: `1px solid ${indigo[300]}`,
+    fontSize: 14,
+    marginBottom: 8
 }));
 const SwitchStyled = styled(Switch)(({ theme }) => ({
     width: 42,
@@ -193,7 +186,7 @@ const SwitchStyled = styled(Switch)(({ theme }) => ({
             transform: 'translateX(16px)',
             color: '#fff',
             '& + .MuiSwitch-track': {
-                backgroundColor: amber[900],
+                backgroundColor: red[400],
                 opacity: 1,
                 border: 0,
             }
@@ -225,7 +218,11 @@ const ButtonSimple = styled(Button)(({ theme }) => {
         color: grey[50],
         minWidth: 0,
         textTransform: 'none',
-        border: 'none'
+        border: 'none',
+        borderRadius: 10,
+        "&:hover": {
+            color: indigo[500]
+        }
     }
 });
 

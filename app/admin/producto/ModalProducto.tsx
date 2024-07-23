@@ -1,53 +1,65 @@
 'use client';
 import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
 import { Box } from '@mui/material';
 import { IoMdCamera } from "react-icons/io";
 import { Controller, useForm } from 'react-hook-form';
 import { useModal } from '@/providers/ModalProvider';
 import { useSnackbar } from '@/providers/SnackBarProvider';
 import { Producto } from '@prisma/client';
-import { H1Bold, Small } from '@/app/componentes/Letras';
+import { H1Bold } from '@/app/componentes/Letras';
 import { BoxPaper, BoxVertical, ButtonFilled, ButtonSimple, InputBox } from '@/app/componentes/Cajas';
-import { parsePhone, toUpperCase } from '@/app/utils/filtros';
+import { toUpperCase } from '@/app/utils/filtros';
 import Image from 'next/image';
 import { useFilePicker } from "use-file-picker";
 import { useEdgeStore } from '@/providers/EdgeStoreProvider';
-import { amber, grey, purple } from '@mui/material/colors';
+import { amber } from '@mui/material/colors';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 interface Props {
     open: boolean;
     setOpen: any;
+    Producto?: Producto;
 }
-export default function ModalProducto({ setOpen, open }: Props) {
+export default function ModalProducto({ setOpen, open, Producto }: Props) {
     const { openModal } = useModal();
     const { openSnackbar } = useSnackbar();
-    const router = useRouter();
-    const { control, handleSubmit, formState: { errors }, watch, setValue } = useForm<Producto>({
-        defaultValues: {
-            nombre: '',
-            imagen: ''
-        }
+    const { control, handleSubmit, formState: { errors }, watch, setValue, reset } = useForm<Producto & { ImagenPrev: string }>({
+        defaultValues: { ...Producto, ImagenPrev: Producto?.imagen }
     });
     const onSubmit = (Producto: Producto) => {
-        openModal({
-            titulo: '¿Continuar?',
-            content: 'Se agregará nuevo Producto',
-            callback() {
-                axios.post('/api/producto/crear', Producto).then(res => {
-                    openSnackbar(res.data.mensaje);
-                    if (!res.data.error) {
-                        setOpen(false);
-                        router.refresh();
-                    }
-                })
-                return true;
-            }
-        });
+        if (Producto.id) {
+            openModal({
+                titulo: '¿Continuar?',
+                content: 'Se agregará nuevo Producto',
+                callback() {
+                    axios.post('/api/producto/modificar', Producto).then(res => {
+                        openSnackbar(res.data.mensaje);
+                        if (!res.data.error) {
+                            setOpen(false);
+                            reset();
+                        }
+                    })
+                    return true;
+                }
+            });
+        }
+        else {
+            openModal({
+                titulo: '¿Continuar?',
+                content: 'Se agregará nuevo Producto',
+                callback() {
+                    axios.post('/api/producto/crear', Producto).then(res => {
+                        openSnackbar(res.data.mensaje);
+                        if (!res.data.error) {
+                            setOpen(false);
+                        }
+                    })
+                    return true;
+                }
+            });
+        }
     }
     const { edgestore } = useEdgeStore();
-
     const logoZone = useFilePicker({
         readAs: 'DataURL',
         accept: 'image/*',
@@ -68,14 +80,13 @@ export default function ModalProducto({ setOpen, open }: Props) {
                 keepMounted={false}
                 maxWidth='md'
                 fullWidth
-                PaperProps={{ sx: { borderRadius: 4, background: purple[900], backgroundImage: 'none' } }}
                 onClose={() => { setOpen(false) }}
             >
                 <Box p={2} component='form' onSubmit={handleSubmit(onSubmit)}>
                     <H1Bold sx={{ fontSize: 22 }} mb={2}>
                         Añadir Producto
                     </H1Bold>
-                  
+
                     <BoxPaper mb={2} width={200} height={200} mx='auto'>
                         <ButtonSimple sx={{ height: "100%", width: "100%" }} onClick={() => logoZone.openFilePicker()}>
                             <Image alt='' src={watch('imagen') ? watch('imagen')! : '/default-profile.jpg'} layout="fill" objectFit="cover" />
@@ -94,7 +105,6 @@ export default function ModalProducto({ setOpen, open }: Props) {
                                 {...field}
                                 inputRef={ref}
                                 label='Nombre del producto'
-                                variant='standard'
                                 helperText={errors.nombre?.message}
                                 error={!!errors.nombre}
                                 onChange={ev => field.onChange(toUpperCase(ev.target.value))}

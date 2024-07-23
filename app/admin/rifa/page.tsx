@@ -54,7 +54,7 @@ export default function Home() {
                     <Tabla
                         data={Rifas.map(value => ({
                             id: value.id,
-                            nombre: value.monto,
+                            'Monto de entrada': value.monto + " BOB",
                             Productos: (<Box>
                                 {value.DetalleRifa.map(value => (
                                     <Normal key={value.id}>{value.Producto.nombre}</Normal>
@@ -83,7 +83,15 @@ export default function Home() {
                                     <ButtonFilled onClick={() => router.push('/admin/rifa/' + value.id)}>
                                         <FaEye />
                                     </ButtonFilled>
-                                    <SwitchStyled />
+                                    <SwitchStyled checked={value.estado} onChange={(ev, checked) => {
+                                        console.log(checked)
+                                        axios.post('/api/rifa/estado', { id: value.id, checked }).then(res => {
+                                            openSnackbar(res.data.mensaje);
+                                            axios.post('/api/rifa/todo').then(res => {
+                                                setRifas(res.data);
+                                            });
+                                        })
+                                    }} />
                                 </Stack>
                             )
                         }))}>

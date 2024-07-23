@@ -3,7 +3,7 @@ import { prisma } from "../../auth/client";
 const POST = async (request: NextRequest) => {
     try {
         const Rifas = await prisma.rifa.findMany({
-            include: { DetalleRifa: { include: { Producto: true } } }
+            include: { Ticket: true, DetalleRifa: { orderBy: { podio: 'asc' }, include: { Producto: true } } },
         });
         return Response.json(Rifas);
     } catch (error) {

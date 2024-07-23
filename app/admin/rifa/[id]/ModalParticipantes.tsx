@@ -6,46 +6,30 @@ import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useModal } from '@/providers/ModalProvider';
 import { useSnackbar } from '@/providers/SnackBarProvider';
 import { DetalleRifa, Producto, Rifa, Ticket } from '@prisma/client';
-import { Bold, H1Bold } from '@/app/componentes/Letras';
+import { Bold, H1Bold, Normal } from '@/app/componentes/Letras';
 import { BoxPaper, ButtonFilled, ButtonSimple, InputBox } from '@/app/componentes/Cajas';
-import { parseNumber, parsePhone } from '@/app/utils/filtros';
+import { QRCode } from 'react-qrcode-logo';
 import { purple } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
+
 import axios from 'axios';
 import dayjs from 'dayjs';
 import Image from 'next/image';
 interface Props {
     open: boolean;
     setOpen: any;
-    max: number;
-    min: number;
+    codigoempiezo: number;
+    rifaId: string;
 }
-export default function ModalParticipantes({ setOpen, open, max, min }: Props) {
+export default function ModalParticipantes({ setOpen, open, codigoempiezo, rifaId }: Props) {
     const { openModal } = useModal();
     const { openSnackbar } = useSnackbar();
-    const [Podio, setPodio] = useState({ nro: 0, open: false });
-    const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm<Ticket>({
-        defaultValues: {
-            codigo: 0
-
-        }
-    });
-
-    const onSubmit = (Rifa: Rifa & { DetalleRifa: (DetalleRifa & { Producto: Producto })[] }) => {
-        openModal({
-            titulo: '¿Continuar?',
-            content: 'Se agregará nueva rifa',
-            callback() {
-                axios.post('/api/rifa/crear', Rifa).then(res => {
-                    openSnackbar(res.data.mensaje);
-                    if (!res.data.error) {
-                        setOpen(false);
-                    }
-                });
-                return true;
-            }
-        });
-    }
+    const { control, handleSubmit, reset, watch } = useForm<Ticket>({ defaultValues: { codigo: 0, nombre: '' } });
+    useEffect(() => {
+        axios.post('/api/ticket/obtenercodigoxid', { rifaId }).then(res => {
+            reset({ codigo: res.data.codigo || codigoempiezo, nombre: '', rifaId });
+        })
+    }, []);
     return (
         <>
             <Dialog
@@ -53,24 +37,64 @@ export default function ModalParticipantes({ setOpen, open, max, min }: Props) {
                 keepMounted={false}
                 maxWidth='md'
                 fullWidth
-                PaperProps={{ sx: { borderRadius: 4, background: purple[900], backgroundImage: 'none' } }}
                 onClose={() => { setOpen(false) }}
             >
                 <Box p={2} component='form' onSubmit={handleSubmit((data) => {
 
+                    openModal({
+                        titulo: '¿Continuar?',
+                        content: 'Se agregará un nuevo ticket',
+                        callback() {
+                            axios.post('/api/ticket/crear', data).then(res => {
+                                openSnackbar(res.data.mensaje);
+                                if (!res.data.error) {
+                                    setOpen(false);
+                                }
+                            });
+                            return true;
+                        }
+                    });
                 })}>
                     <H1Bold sx={{ fontSize: 22 }} mb={2}>
-                        Crear Rifa
+                        Añadir ticket
                     </H1Bold>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <H1Bold sx={{ fontSize: 20, mb: 2 }}>Datos de la rifa</H1Bold>
-
+                        <Grid item xs={12} sm={4}>
+                            <QRCode style={{ borderRadius: 16, width: "80%", height: "80%", margin: '0 auto', display: 'block' }} value={`${window.location.hostname + ':' + window.location.port}/ticket/${watch('codigo')}`} />
+                            <Normal mt={2}>Código: {watch('codigo')}</Normal>
+                            <Normal>A nombre de: {watch('nombre') || 'Anónimo'}</Normal>
                         </Grid>
+                        <Grid item xs={12} sm={8}>
+                            <H1Bold sx={{ fontSize: 20, mb: 2 }}>Datos de la rifa</H1Bold>
+                            <Controller
+                                name={"codigo"}
+                                control={control}
+                                render={({ field: { ref, ...field } }) => (
+                                    <InputBox
+                                        {...field}
+                                        inputRef={ref}
+                                        label='Código empiezo'
+                                        disabled
+                                    />
+                                )}
+                            />
+                            <Controller
+                                name={"nombre"}
+                                control={control}
+                                render={({ field: { ref, ...field } }) => (
+                                    <InputBox
+                                        {...field}
+                                        inputRef={ref}
+                                        label='Referencia'
+                                    />
+                                )}
+                            />
+                        </Grid>
+
                         <Grid item xs={12}>
                             <ButtonFilled
                                 sx={{ float: 'right' }} type='submit'>
-                                Guardar cambios
+                                Registrar
                             </ButtonFilled>
                         </Grid>
                     </Grid>

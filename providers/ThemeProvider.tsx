@@ -1,18 +1,18 @@
 'use client';
 import { createTheme, CssBaseline, GlobalStyles, ThemeProvider } from '@mui/material';
-import { purple, grey } from '@mui/material/colors';
+import { indigo, grey, red } from '@mui/material/colors';
 import 'dayjs/locale/es-mx';
 
 function ThemeProviderCustom({ children }: any) {
     const theme = createTheme({
         palette: {
             mode: 'light',
-            background: { default: purple[900] },
-            primary: { main: grey[50] },
-            text: { primary: grey[50], secondary: grey[100] },
-            common: { white: grey[50], black: grey[50] },
-            divider: grey[50],
-            error: { main: '#ff8888' }
+            background: { default: '#fff', paper: '#fff' },
+            primary: { main: indigo[600] },
+            text: { primary: grey[800], secondary: indigo[400], disabled: grey[500] },
+            divider: indigo[200],
+            error: { main: red[600] },
+            action: { disabled: grey[200] }
         }
     })
     return (

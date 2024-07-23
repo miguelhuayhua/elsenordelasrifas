@@ -55,7 +55,6 @@ export default function ModalRifa({ setOpen, open }: Props) {
                 keepMounted={false}
                 maxWidth='md'
                 fullWidth
-                PaperProps={{ sx: { borderRadius: 4, background: purple[900], backgroundImage: 'none' } }}
                 onClose={() => { setOpen(false) }}
             >
                 <Box p={2} component='form' onSubmit={handleSubmit(onSubmit)}>
@@ -74,7 +73,6 @@ export default function ModalRifa({ setOpen, open }: Props) {
                                         {...field}
                                         inputRef={ref}
                                         label='Código empiezo'
-                                        variant='standard'
                                         helperText={errors.codigoempiezo?.message}
                                         error={!!errors.codigoempiezo}
                                         onChange={ev => field.onChange(parsePhone(ev.target.value))}
@@ -91,7 +89,6 @@ export default function ModalRifa({ setOpen, open }: Props) {
                                         {...field}
                                         inputRef={ref}
                                         label='Participa con'
-                                        variant='standard'
                                         helperText={errors.monto?.message}
                                         InputProps={{ endAdornment: 'BOB' }}
                                         error={!!errors.monto}
@@ -108,7 +105,6 @@ export default function ModalRifa({ setOpen, open }: Props) {
                                         {...field}
                                         inputRef={ref}
                                         label='Participantes esperados'
-                                        variant='standard'
                                         helperText={errors.monto?.message}
                                         InputProps={{ endAdornment: 'BOB' }}
                                         error={!!errors.monto}

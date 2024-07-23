@@ -1,4 +1,5 @@
 import { Typography, styled } from "@mui/material";
+import { amber, indigo } from "@mui/material/colors";
 const Normal = styled(Typography)(({ theme }) => {
     return {
         fontWeight: "300",
@@ -30,7 +31,9 @@ const Cursive = styled(Typography)(() => {
 const H1Bold = styled(Typography)(({ theme }) => {
     return {
         fontWeight: 800,
-        fontSize: 40,
+        fontSize: 30,
+        color: indigo[900]
+
     }
 });
 export { Normal, Small, Bold, H1Bold, Cursive };

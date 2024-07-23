@@ -5,40 +5,45 @@ import { Box, Divider, Grid, Stack } from '@mui/material';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { useModal } from '@/providers/ModalProvider';
 import { useSnackbar } from '@/providers/SnackBarProvider';
-import { DetalleRifa, Producto, Rifa } from '@prisma/client';
+import { DetalleRifa, Producto, Rifa, Ticket } from '@prisma/client';
 import { Bold, H1Bold } from '@/app/componentes/Letras';
-import { BoxPaper, ButtonFilled, ButtonSimple, InputBox } from '@/app/componentes/Cajas';
+import { BoxPaper, ButtonFilled, ButtonOutline, ButtonSimple, InputBox } from '@/app/componentes/Cajas';
 import { parseNumber, parsePhone } from '@/app/utils/filtros';
 import { purple } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ModalProductoRifa from '../ProductoRifa';
+import Tabla from '../../componentes/Tabla';
+import { MdAdd } from 'react-icons/md';
+import ModalParticipantes from './ModalParticipantes';
+import dayjs from 'dayjs';
+import { TbSquareRoundedNumber1Filled, TbSquareRoundedNumber2Filled, TbSquareRoundedNumber3Filled } from 'react-icons/tb';
 interface Props {
-    Rifa: Rifa & { DetalleRifa: (DetalleRifa & { Producto: Producto })[] }
+    Rifa: Rifa & { Ticket: Ticket[], DetalleRifa: (DetalleRifa & { Producto: Producto })[] }
 }
 export default function Client({ Rifa }: Props) {
     const { openModal } = useModal();
+    const [Open, setOpen] = useState(false);
     const { openSnackbar } = useSnackbar();
     const [Podio, setPodio] = useState({ nro: 0, open: false });
     const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm<Rifa & { DetalleRifa: (DetalleRifa & { Producto: Producto })[] }>({
         defaultValues: Rifa
     });
 
-    const onSubmit = (Rifa: Rifa & { DetalleRifa: (DetalleRifa & { Producto: Producto })[] }) => {
-        openModal({
-            titulo: '¿Continuar?',
-            content: 'Se modificará la rifa',
-            callback() {
-                axios.post('/api/rifa/modificar', Rifa).then(res => {
-                    openSnackbar(res.data.mensaje);
-                });
-                return true;
-            }
-        });
-    }
     return (
         <>
-            <Grid container spacing={5} p={5}>
+            <Grid container component='form' onSubmit={handleSubmit((data) => {
+                openModal({
+                    titulo: '¿Continuar?',
+                    content: 'Se modificará la rifa',
+                    callback() {
+                        axios.post('/api/rifa/modificar', data).then(res => {
+                            openSnackbar(res.data.mensaje);
+                        });
+                        return true;
+                    }
+                });
+            })} spacing={5} py={10} px={{ xs: 1, sm: 5, md: 10 }}>
                 <Grid item xs={12}>
                     <H1Bold sx={{ fontSize: 22 }}>
                         Modificar rifa : {Rifa.id}
@@ -55,10 +60,8 @@ export default function Client({ Rifa }: Props) {
                                 {...field}
                                 inputRef={ref}
                                 label='Código empiezo'
-                                variant='standard'
+                                disabled
                                 helperText={errors.codigoempiezo?.message}
-                                error={!!errors.codigoempiezo}
-                                onChange={ev => field.onChange(parsePhone(ev.target.value))}
                             />
                         )}
                     />
@@ -71,7 +74,7 @@ export default function Client({ Rifa }: Props) {
                                 {...field}
                                 inputRef={ref}
                                 label='Participa con'
-                                variant='standard'
+                                disabled
                                 helperText={errors.monto?.message}
                                 InputProps={{ endAdornment: 'BOB' }}
                                 error={!!errors.monto}
@@ -88,7 +91,6 @@ export default function Client({ Rifa }: Props) {
                                 {...field}
                                 inputRef={ref}
                                 label='Participantes esperados'
-                                variant='standard'
                                 helperText={errors.monto?.message}
                                 InputProps={{ endAdornment: 'BOB' }}
                                 error={!!errors.monto}
@@ -97,11 +99,12 @@ export default function Client({ Rifa }: Props) {
                         )}
                     />
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
                     <BoxPaper sx={{ background: 'none' }} p={2}>
                         <H1Bold sx={{ fontSize: 20, mb: 2 }}>Seleccionar podio</H1Bold>
                         <Stack spacing={2}>
-                            <ButtonSimple onClick={() => {
+                            <ButtonSimple endIcon={<TbSquareRoundedNumber1Filled />} onClick={() => {
                                 setPodio({ open: true, nro: 1 })
                             }} sx={{ bgcolor: '#D4AF37' }}>
                                 {watch('DetalleRifa').find(value => value.podio == 1)?.Producto.nombre || '1er lugar'}
@@ -110,6 +113,7 @@ export default function Client({ Rifa }: Props) {
                                 onClick={() => {
                                     setPodio({ open: true, nro: 2 })
                                 }}
+                                endIcon={<TbSquareRoundedNumber2Filled />}
                                 sx={{ bgcolor: '#C0C0C0' }}>
                                 {watch('DetalleRifa').find(value => value.podio == 2)?.Producto.nombre || '2do lugar'}
                             </ButtonSimple>
@@ -117,14 +121,12 @@ export default function Client({ Rifa }: Props) {
                                 onClick={() => {
                                     setPodio({ open: true, nro: 3 })
                                 }}
+                                endIcon={<TbSquareRoundedNumber3Filled />}
                                 sx={{ bgcolor: '#CD7F32' }}>
                                 {watch('DetalleRifa').find(value => value.podio == 3)?.Producto.nombre || '3er lugar'}
                             </ButtonSimple>
                         </Stack>
                     </BoxPaper>
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                    <H1Bold sx={{ fontSize: 20, mb: 2 }}>Introducir participantes</H1Bold>
                 </Grid>
                 <Grid item xs={12}>
                     <ButtonFilled
@@ -132,9 +134,29 @@ export default function Client({ Rifa }: Props) {
                         Guardar cambios
                     </ButtonFilled>
                 </Grid>
+                <Grid item xs={12}>
+                    <H1Bold sx={{ fontSize: 20, mb: 2 }}>Participantes</H1Bold>
+                    <Bold>
+                        Total acumulado: {Rifa.Ticket.length * Rifa.monto} BOB
+                    </Bold>
+                    <ButtonOutline sx={{ mt: 2 }} onClick={() => {
+                        setOpen(true);
+                    }} startIcon={<MdAdd />}>
+                        Agregar
+                    </ButtonOutline>
+                    <Tabla data={Rifa.Ticket.map(value => ({
+                        'Código': value.codigo,
+                        'Participante': value.nombre || 'anónimo',
+                        'Se unío el:': dayjs(value.createdAt).format('DD/MM/YYYY - HH:mm:ss')
+                    }))} />
+                </Grid>
+
             </Grid>
             {
                 Podio.open ? <ModalProductoRifa watch={watch as any} Podio={Podio} setPodio={setPodio} setValue={setValue as any} /> : null
+            }
+            {
+                Open ? <ModalParticipantes rifaId={Rifa.id} open={Open} setOpen={setOpen} codigoempiezo={Rifa.codigoempiezo} /> : null
             }
         </>
     );

@@ -7,10 +7,8 @@ export default async function Layout({ children }: any) {
         <ModalProvider>
             <SnackbarProvider>
                 <Box display='flex' justifyContent='center'>
-                    <Box width={100} bgcolor='white' height="100vh">
-                        <Sidebar />
-                    </Box>
-                    <Box width={"calc(100% - 100px)"} >
+                    <Sidebar />
+                    <Box width={{ xs: "100%", sm: '  "calc(100% - 90px)"' }} >
                         {children}
                     </Box>
                 </Box>
