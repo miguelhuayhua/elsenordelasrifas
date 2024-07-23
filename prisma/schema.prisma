@@ -17,6 +17,7 @@ model Rifa {
   DetalleRifa   DetalleRifa[]
   createdAt     DateTime      @default(now())
   estado        Boolean       @default(true)
+  modo          String?       @default("en espera")
 }
 
 model DetalleRifa {

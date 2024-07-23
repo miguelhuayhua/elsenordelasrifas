@@ -1,7 +1,7 @@
 'use client';
 import React, { createContext, useContext, useState } from 'react';
-import { Snackbar, useTheme } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Snackbar } from '@mui/material';
+import { grey, indigo } from '@mui/material/colors';
 const SnackbarContext = createContext({
     openSnackbar: (message: string) => {
     }
@@ -9,7 +9,6 @@ const SnackbarContext = createContext({
 export const SnackbarProvider = ({ children }: any) => {
     const [open, setOpen] = useState(false);
     const [mensaje, setMensaje] = useState('');
-    const theme = useTheme();
     const openSnackbar = (message: string) => {
         setMensaje(message);
         setOpen(true);
@@ -18,11 +17,13 @@ export const SnackbarProvider = ({ children }: any) => {
         <SnackbarContext.Provider value={{ openSnackbar }}>
             {children}
             <Snackbar
+                ContentProps={{ sx: { background: indigo[400], } }}
                 open={open}
                 autoHideDuration={6000}
                 onClose={() => {
                     setOpen(false);
                 }}
+                sx={{ color: grey[50] }}
                 message={mensaje}
             />
         </SnackbarContext.Provider>

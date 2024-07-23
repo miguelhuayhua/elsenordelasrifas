@@ -6,10 +6,8 @@ import RifaBox from "./componentes/entidades/Rifa";
 import { useEffect, useState } from "react";
 import { Rifa } from "@prisma/client";
 import axios from 'axios';
-import ModalRifa from "./ModalRifa";
 export default function Home() {
   const [Rifas, setRifas] = useState<Rifa[]>([]);
-  const [Rifa, setRifa] = useState<any>();
   useEffect(() => {
     axios.post('/api/rifa/todo').then(res => {
       setRifas(res.data);
@@ -27,16 +25,13 @@ export default function Home() {
           {
             Rifas.map(rifa => (
               <Grid key={rifa.id} item xs={6} sm={4} md={3} lg={2}>
-                <RifaBox setRifa={setRifa} Rifa={rifa as any} />
+                <RifaBox Rifa={rifa as any} />
               </Grid>
             ))
           }
         </Grid>
       </Box>
-      {
-        Rifa ?
-          <ModalRifa Rifa={Rifa as any} setRifa={setRifa} /> : null
-      }
+
     </>
   );
 }

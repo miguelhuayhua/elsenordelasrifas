@@ -1,32 +1,33 @@
 'use client';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import { Box, Divider, Grid, Stack } from '@mui/material';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { MdCelebration, MdOutlineKeyboardArrowLeft, MdOutlineLocationOn } from 'react-icons/md';
+import { Grid, Stack } from '@mui/material';
+import { Controller, useForm } from 'react-hook-form';
 import { useModal } from '@/providers/ModalProvider';
 import { useSnackbar } from '@/providers/SnackBarProvider';
 import { DetalleRifa, Producto, Rifa, Ticket } from '@prisma/client';
 import { Bold, H1Bold } from '@/app/componentes/Letras';
 import { BoxPaper, ButtonFilled, ButtonOutline, ButtonSimple, InputBox } from '@/app/componentes/Cajas';
 import { parseNumber, parsePhone } from '@/app/utils/filtros';
-import { purple } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import ModalProductoRifa from '../ProductoRifa';
 import Tabla from '../../componentes/Tabla';
 import { MdAdd } from 'react-icons/md';
 import ModalParticipantes from './ModalParticipantes';
 import dayjs from 'dayjs';
-import { TbSquareRoundedNumber1Filled, TbSquareRoundedNumber2Filled, TbSquareRoundedNumber3Filled } from 'react-icons/tb';
+import { TbReload, TbSquareRoundedNumber1Filled, TbSquareRoundedNumber2Filled, TbSquareRoundedNumber3Filled } from 'react-icons/tb';
+import { useRouter } from 'next/navigation';
+import { red } from '@mui/material/colors';
 interface Props {
     Rifa: Rifa & { Ticket: Ticket[], DetalleRifa: (DetalleRifa & { Producto: Producto })[] }
 }
 export default function Client({ Rifa }: Props) {
     const { openModal } = useModal();
+    const router = useRouter();
     const [Open, setOpen] = useState(false);
     const { openSnackbar } = useSnackbar();
     const [Podio, setPodio] = useState({ nro: 0, open: false });
-    const { control, handleSubmit, formState: { errors }, setValue, watch } = useForm<Rifa & { DetalleRifa: (DetalleRifa & { Producto: Producto })[] }>({
+    const { control, handleSubmit, formState: { errors, isDirty }, setValue, watch } = useForm<Rifa & { DetalleRifa: (DetalleRifa & { Producto: Producto })[] }>({
         defaultValues: Rifa
     });
 
@@ -44,6 +45,37 @@ export default function Client({ Rifa }: Props) {
                     }
                 });
             })} spacing={5} py={10} px={{ xs: 1, sm: 5, md: 10 }}>
+                <Grid item xs={12}>
+                    <Stack direction='row' spacing={1}>
+                        <ButtonOutline onClick={() => router.back()} startIcon={<MdOutlineKeyboardArrowLeft />}>
+                            Regresar
+                        </ButtonOutline>
+                        <ButtonOutline onClick={() => router.refresh()}>
+                            <TbReload fontSize={18} />
+                        </ButtonOutline>
+                        <ButtonFilled
+                            onClick={() => {
+                                openModal({
+                                    titulo: '¿Está seguro?',
+                                    content: 'Se cambiará al modo juego',
+                                    callback() {
+                                        axios.post('/api/rifa/modo', { id: Rifa.id, modo: 'en juego' }).then(res => {
+                                            openSnackbar(res.data.mensaje);
+                                            if (!res.data.error) {
+                                                router.replace(`/admin/rifa/${Rifa.id}/juego`)
+                                            }
+                                        })
+                                        return true;
+                                    }
+                                })
+                            }}
+                            sx={{ background: red[400], fontSize: 18 }}
+                            endIcon={<MdCelebration />}>
+                            Iniciar
+                        </ButtonFilled>
+                    </Stack>
+
+                </Grid>
                 <Grid item xs={12}>
                     <H1Bold sx={{ fontSize: 22 }}>
                         Modificar rifa : {Rifa.id}
@@ -99,7 +131,6 @@ export default function Client({ Rifa }: Props) {
                         )}
                     />
                 </Grid>
-
                 <Grid item xs={12} sm={6}>
                     <BoxPaper sx={{ background: 'none' }} p={2}>
                         <H1Bold sx={{ fontSize: 20, mb: 2 }}>Seleccionar podio</H1Bold>
@@ -128,29 +159,32 @@ export default function Client({ Rifa }: Props) {
                         </Stack>
                     </BoxPaper>
                 </Grid>
-                <Grid item xs={12}>
-                    <ButtonFilled
-                        sx={{ float: 'right' }} type='submit'>
-                        Guardar cambios
-                    </ButtonFilled>
-                </Grid>
+                {
+                    isDirty ?
+                        <Grid item xs={12}>
+                            <ButtonFilled
+                                sx={{ float: 'right' }} type='submit'>
+                                Guardar cambios
+                            </ButtonFilled>
+                        </Grid> : null
+                }
                 <Grid item xs={12}>
                     <H1Bold sx={{ fontSize: 20, mb: 2 }}>Participantes</H1Bold>
-                    <Bold>
-                        Total acumulado: {Rifa.Ticket.length * Rifa.monto} BOB
-                    </Bold>
+
                     <ButtonOutline sx={{ mt: 2 }} onClick={() => {
                         setOpen(true);
                     }} startIcon={<MdAdd />}>
                         Agregar
                     </ButtonOutline>
-                    <Tabla data={Rifa.Ticket.map(value => ({
+                    <Tabla hasPagination data={Rifa.Ticket.map(value => ({
                         'Código': value.codigo,
                         'Participante': value.nombre || 'anónimo',
                         'Se unío el:': dayjs(value.createdAt).format('DD/MM/YYYY - HH:mm:ss')
                     }))} />
+                    <Bold mt={4}>
+                        Total acumulado: {Rifa.Ticket.length * Rifa.monto} BOB
+                    </Bold>
                 </Grid>
-
             </Grid>
             {
                 Podio.open ? <ModalProductoRifa watch={watch as any} Podio={Podio} setPodio={setPodio} setValue={setValue as any} /> : null

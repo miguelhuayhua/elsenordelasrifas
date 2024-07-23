@@ -21,7 +21,7 @@ const POST = async (request: NextRequest) => {
             return Response.json({ error: false, mensaje: `Rifa ${Rifa.id} modificado con éxito.` })
         } catch (error) {
             console.log(error)
-            return Response.json({ error: true, mensaje: 'Error al crea la rifa' })
+            return Response.json({ error: true, mensaje: 'Error al editar la rifa' })
         }
     }
     else

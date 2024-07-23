@@ -3,6 +3,8 @@ import { createTheme, CssBaseline, GlobalStyles, ThemeProvider } from '@mui/mate
 import { indigo, grey, red } from '@mui/material/colors';
 import 'dayjs/locale/es-mx';
 
+import { Karla } from 'next/font/google';
+const karla = Karla({ subsets: ['latin'] });
 function ThemeProviderCustom({ children }: any) {
     const theme = createTheme({
         palette: {
@@ -13,6 +15,9 @@ function ThemeProviderCustom({ children }: any) {
             divider: indigo[200],
             error: { main: red[600] },
             action: { disabled: grey[200] }
+        },
+        typography: {
+            fontFamily: karla.style.fontFamily
         }
     })
     return (

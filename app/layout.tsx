@@ -4,11 +4,9 @@ import { NextAuthProvider } from '@/providers/AuthProvider';
 import DatePickerProvider from '@/providers/DatePickerProvider';
 import { EdgeStoreProvider } from '@/providers/EdgeStoreProvider';
 import ThemeProviderCustom from '@/providers/ThemeProvider';
-import { Montserrat } from 'next/font/google';
-const montserrat = Montserrat({ subsets: ['latin'] });
 export default function RootLayout({ children }: any) {
   return (
-    <html lang="es" className={montserrat.className} >
+    <html lang="es" >
       <body>
         <NextAuthProvider>
           <ThemeProviderCustom>

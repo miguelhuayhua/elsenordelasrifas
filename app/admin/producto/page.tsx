@@ -15,7 +15,7 @@ import { BiPencil } from "react-icons/bi";
 export default function Home() {
     const [open, setOpen] = useState(false);
     const [Productos, setProductos] = useState<Producto[]>([]);
-    const [Producto, setProducto] = useState<Producto>({ imagen: '', nombre: '', id: '', estado: true });
+    const [Producto, setProducto] = useState<Partial<Producto>>({ imagen: '', nombre: '', id: '', estado: true });
     useEffect(() => {
         axios.post('/api/producto/todo').then(res => {
             setProductos(res.data);
@@ -68,7 +68,7 @@ export default function Home() {
             </Grid>
             {
                 open ?
-                    <ModalProducto Producto={Producto} setOpen={setOpen} open={open} />
+                    <ModalProducto Producto={Producto as any} setOpen={setOpen} open={open} />
                     : null
             }
         </>

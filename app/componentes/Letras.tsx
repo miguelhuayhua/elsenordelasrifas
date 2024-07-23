@@ -32,7 +32,7 @@ const H1Bold = styled(Typography)(({ theme }) => {
     return {
         fontWeight: 800,
         fontSize: 30,
-        color: indigo[900]
+        color: indigo[500]
 
     }
 });
