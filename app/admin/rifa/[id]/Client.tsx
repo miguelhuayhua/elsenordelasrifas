@@ -164,32 +164,31 @@ export default function Client({ Rifa }: Props) {
                     />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                    <BoxPaper sx={{ background: 'none' }} p={2}>
-                        <H1Bold sx={{ fontSize: 20, mb: 2 }}>Seleccionar podio</H1Bold>
-                        <Stack spacing={2}>
-                            <ButtonSimple endIcon={<TbSquareRoundedNumber1Filled />} onClick={() => {
-                                setPodio({ open: true, nro: 1 })
-                            }} sx={{ bgcolor: '#D4AF37' }}>
-                                {watch('DetalleRifa').find(value => value.podio == 1)?.Producto.nombre || '1er lugar'}
-                            </ButtonSimple>
-                            <ButtonSimple
-                                onClick={() => {
-                                    setPodio({ open: true, nro: 2 })
-                                }}
-                                endIcon={<TbSquareRoundedNumber2Filled />}
-                                sx={{ bgcolor: '#C0C0C0' }}>
-                                {watch('DetalleRifa').find(value => value.podio == 2)?.Producto.nombre || '2do lugar'}
-                            </ButtonSimple>
-                            <ButtonSimple
-                                onClick={() => {
-                                    setPodio({ open: true, nro: 3 })
-                                }}
-                                endIcon={<TbSquareRoundedNumber3Filled />}
-                                sx={{ bgcolor: '#CD7F32' }}>
-                                {watch('DetalleRifa').find(value => value.podio == 3)?.Producto.nombre || '3er lugar'}
-                            </ButtonSimple>
-                        </Stack>
-                    </BoxPaper>
+
+                    <H1Bold sx={{ fontSize: 20, mb: 2 }}>Seleccionar podio</H1Bold>
+                    <Stack spacing={2}>
+                        <ButtonSimple endIcon={<TbSquareRoundedNumber1Filled />} onClick={() => {
+                            setPodio({ open: true, nro: 1 })
+                        }} sx={{ bgcolor: '#D4AF37' }}>
+                            {watch('DetalleRifa').find(value => value.podio == 1)?.Producto.nombre || '1er lugar'}
+                        </ButtonSimple>
+                        <ButtonSimple
+                            onClick={() => {
+                                setPodio({ open: true, nro: 2 })
+                            }}
+                            endIcon={<TbSquareRoundedNumber2Filled />}
+                            sx={{ bgcolor: '#C0C0C0' }}>
+                            {watch('DetalleRifa').find(value => value.podio == 2)?.Producto.nombre || '2do lugar'}
+                        </ButtonSimple>
+                        <ButtonSimple
+                            onClick={() => {
+                                setPodio({ open: true, nro: 3 })
+                            }}
+                            endIcon={<TbSquareRoundedNumber3Filled />}
+                            sx={{ bgcolor: '#CD7F32' }}>
+                            {watch('DetalleRifa').find(value => value.podio == 3)?.Producto.nombre || '3er lugar'}
+                        </ButtonSimple>
+                    </Stack>
                 </Grid>
                 <Grid item xs={12}>
                     <ButtonFilled

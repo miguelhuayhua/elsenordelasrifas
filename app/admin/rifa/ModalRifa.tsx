@@ -1,15 +1,14 @@
 'use client';
 import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
-import { Box, Divider, Grid, Stack } from '@mui/material';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { Box, Grid, Stack } from '@mui/material';
+import { Controller, useForm } from 'react-hook-form';
 import { useModal } from '@/providers/ModalProvider';
 import { useSnackbar } from '@/providers/SnackBarProvider';
 import { DetalleRifa, Producto, Rifa } from '@prisma/client';
 import { Bold, H1Bold } from '@/app/componentes/Letras';
 import { BoxPaper, ButtonFilled, ButtonSimple, InputBox, InputLabelStyled } from '@/app/componentes/Cajas';
 import { parseNumber, parsePhone } from '@/app/utils/filtros';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import ModalProductoRifa from './ProductoRifa';
 import 'react-quill/dist/quill.snow.css';
@@ -140,30 +139,28 @@ export default function ModalRifa({ setOpen, open }: Props) {
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <BoxPaper sx={{ background: 'none' }} p={2}>
-                                <H1Bold sx={{ fontSize: 20, mb: 2 }}>Seleccionar podio</H1Bold>
-                                <Stack spacing={2}>
-                                    <ButtonSimple onClick={() => {
-                                        setPodio({ open: true, nro: 1 })
-                                    }} sx={{ bgcolor: '#D4AF37' }}>
-                                        {watch('DetalleRifa').find(value => value.podio == 1)?.Producto.nombre || '1er lugar'}
-                                    </ButtonSimple>
-                                    <ButtonSimple
-                                        onClick={() => {
-                                            setPodio({ open: true, nro: 2 })
-                                        }}
-                                        sx={{ bgcolor: '#C0C0C0' }}>
-                                        {watch('DetalleRifa').find(value => value.podio == 2)?.Producto.nombre || '2do lugar'}
-                                    </ButtonSimple>
-                                    <ButtonSimple
-                                        onClick={() => {
-                                            setPodio({ open: true, nro: 3 })
-                                        }}
-                                        sx={{ bgcolor: '#CD7F32' }}>
-                                        {watch('DetalleRifa').find(value => value.podio == 3)?.Producto.nombre || '3er lugar'}
-                                    </ButtonSimple>
-                                </Stack>
-                            </BoxPaper>
+                            <H1Bold sx={{ fontSize: 20, mb: 2 }}>Seleccionar podio</H1Bold>
+                            <Stack spacing={2}>
+                                <ButtonSimple onClick={() => {
+                                    setPodio({ open: true, nro: 1 })
+                                }} sx={{ bgcolor: '#D4AF37' }}>
+                                    {watch('DetalleRifa').find(value => value.podio == 1)?.Producto.nombre || '1er lugar'}
+                                </ButtonSimple>
+                                <ButtonSimple
+                                    onClick={() => {
+                                        setPodio({ open: true, nro: 2 })
+                                    }}
+                                    sx={{ bgcolor: '#C0C0C0' }}>
+                                    {watch('DetalleRifa').find(value => value.podio == 2)?.Producto.nombre || '2do lugar'}
+                                </ButtonSimple>
+                                <ButtonSimple
+                                    onClick={() => {
+                                        setPodio({ open: true, nro: 3 })
+                                    }}
+                                    sx={{ bgcolor: '#CD7F32' }}>
+                                    {watch('DetalleRifa').find(value => value.podio == 3)?.Producto.nombre || '3er lugar'}
+                                </ButtonSimple>
+                            </Stack>
                         </Grid>
                         <Grid item xs={12}>
                             <ButtonFilled
