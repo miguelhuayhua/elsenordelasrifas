@@ -84,21 +84,21 @@ export default function Client({ Rifa }: Props) {
                                 Rifa.tercero ?
                                     <Normal sx={{ color: '#ce783c' }}><b>3er lugar: {Rifa.tercero}</b></Normal> : null
                             }
-                            <Bold>
+                            <Bold my={2}>
                                 Participantes requeridos: <span style={{ color: indigo[400] }}>{Rifa.Ticket.length}</span> de <span style={{ fontSize: 25, color: red[400] }}>{Rifa.participantes}</span>
                             </Bold>
                             <ChipBox label={`Estado: ${Rifa.modo?.toUpperCase()}`} />
                             <br />
                             <Stack direction='row' spacing={2} mt={2}>
                                 {
-                                    <Link href='/' target='_blank'>
+                                    <Link href='https://chat.whatsapp.com/BcpN3rDlRn7InCpdMMUTIQ' target='_blank'>
                                         <ButtonFilled>
                                             Unirme al grupo
                                         </ButtonFilled>
                                     </Link>
                                 }
                                 {
-                                    Rifa.monto > 5 ?
+                                    Rifa.monto >= 5 ?
                                         <ButtonOutline onClick={() => { setOpen(true) }}>
                                             Solicitar reembolso
                                         </ButtonOutline> : null
