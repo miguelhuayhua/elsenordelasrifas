@@ -19,7 +19,6 @@ interface Props {
     setOpen: any;
 }
 export default function ModalRifa({ setOpen, open }: Props) {
-    const router = useRouter();
     const { openModal } = useModal();
     const { openSnackbar } = useSnackbar();
     const [Podio, setPodio] = useState({ nro: 0, open: false });
@@ -41,7 +40,6 @@ export default function ModalRifa({ setOpen, open }: Props) {
                     openSnackbar(res.data.mensaje);
                     if (!res.data.error) {
                         setOpen(false);
-                        router.refresh();
                     }
                 });
                 return true;
