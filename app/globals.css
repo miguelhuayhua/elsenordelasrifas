@@ -1,0 +1,19 @@
+.editor {
+    border: 1px solid #aaa;
+    border-radius: 12px;
+    overflow: hidden;
+
+}
+
+.ql-toolbar {
+    border: none !important;
+    border-bottom: 1px solid #aaa !important;
+}
+
+.ql-container {
+    border: none !important;
+}
+
+.ql-editor {
+    min-height: 140px;
+}

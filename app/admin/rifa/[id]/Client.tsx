@@ -151,6 +151,7 @@ export default function Client({ Rifa }: Props) {
                         rules={{ required: 'Introduzca participantes requeridos' }}
                         render={({ field: { ref, ...field } }) => (
                             <InputBox
+                                sx={{ mt: 3 }}
                                 {...field}
                                 inputRef={ref}
                                 label='Participantes esperados'

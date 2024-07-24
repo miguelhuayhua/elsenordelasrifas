@@ -1,4 +1,4 @@
-//providers
+import './globals.css';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { NextAuthProvider } from '@/providers/AuthProvider';
 import DatePickerProvider from '@/providers/DatePickerProvider';
