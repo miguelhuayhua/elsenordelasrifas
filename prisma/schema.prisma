@@ -38,7 +38,8 @@ model Producto {
   nombre      String
   estado      Boolean       @default(true)
   valor       Float         @default(0)
-  imagen      String
+  imagen      String        @default("")
+  referencia  String        @default("")
   DetalleRifa DetalleRifa[]
   createdAt   DateTime?     @default(now())
 }

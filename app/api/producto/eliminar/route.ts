@@ -7,19 +7,13 @@ import { backendClient } from "../../edgestore/[...edgestore]/edgestore-server";
 const POST = async (request: NextRequest) => {
     const token = await getToken({ req: request, secret })
     if (token) {
-        let { nombre, imagen, valor, referencia } = await request.json() as Producto;
+        let { id } = await request.json();
         try {
-            if (imagen)
-                await backendClient.publicFiles.confirmUpload({ url: imagen });
-            const Producto = await prisma.producto.create({
-                data: {
-                    nombre, imagen, valor: +valor, referencia
-                }
-            });
-            return Response.json({ error: false, mensaje: `${Producto.nombre} creado con éxito.` })
+            await prisma.producto.delete({ where: { id } });
+            return Response.json({ error: false, mensaje: `Producto eliminado con éxito.` })
         } catch (error) {
             console.log(error)
-            return Response.json({ error: true, mensaje: 'Error al insertar un producto' })
+            return Response.json({ error: true, mensaje: 'Error al eliminar producto' })
         }
     }
     else

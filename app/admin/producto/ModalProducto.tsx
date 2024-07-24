@@ -14,6 +14,7 @@ import { useFilePicker } from "use-file-picker";
 import { useEdgeStore } from '@/providers/EdgeStoreProvider';
 import { amber, red } from '@mui/material/colors';
 import axios from 'axios';
+import { BiTrash } from 'react-icons/bi';
 interface Props {
     open: boolean;
     setOpen: any;
@@ -51,6 +52,7 @@ export default function ModalProducto({ setOpen, open, Producto }: Props) {
                         openSnackbar(res.data.mensaje);
                         if (!res.data.error) {
                             setOpen(false);
+                            reset();
                         }
                     })
                     return true;
@@ -79,9 +81,29 @@ export default function ModalProducto({ setOpen, open, Producto }: Props) {
                 keepMounted={false}
                 maxWidth='md'
                 fullWidth
-                onClose={() => { setOpen(false) }}
+                onClose={() => {
+                    setOpen(false);
+                    reset();
+                }}
             >
                 <Box p={2} component='form' onSubmit={handleSubmit(onSubmit)}>
+                    <ButtonFilled
+                        onClick={() => {
+                            openModal({
+                                titulo: '¿Continuar?',
+                                content: 'Se eliminará el producto',
+                                callback() {
+                                    axios.post('/api/producto/eliminar', { id: Producto?.id }).then(res => {
+                                        openSnackbar(res.data.mensaje);
+                                        setOpen(false);
+                                    });
+                                    return true;
+                                }
+                            })
+                        }}
+                        sx={{ background: red[400], float: 'right' }}>
+                        <BiTrash fontSize={20} />
+                    </ButtonFilled>
                     <H1Bold sx={{ fontSize: 22 }} mb={2}>
                         Añadir Producto
                     </H1Bold>
@@ -101,7 +123,7 @@ export default function ModalProducto({ setOpen, open, Producto }: Props) {
                         render={({ field: { ref, ...field } }) => (
                             <InputBox
                                 {...field}
-                                InputProps={{endAdornment:'BOB'}}
+                                InputProps={{ endAdornment: 'BOB' }}
                                 inputRef={ref}
                                 label='Valor del producto'
                                 helperText={errors.valor?.message}
@@ -122,6 +144,17 @@ export default function ModalProducto({ setOpen, open, Producto }: Props) {
                                 helperText={errors.nombre?.message}
                                 error={!!errors.nombre}
                                 onChange={ev => field.onChange(toUpperCase(ev.target.value))}
+                            />
+                        )}
+                    />
+                    <Controller
+                        name={"referencia"}
+                        control={control}
+                        render={({ field: { ref, ...field } }) => (
+                            <InputBox
+                                {...field}
+                                inputRef={ref}
+                                label='Referencia'
                             />
                         )}
                     />

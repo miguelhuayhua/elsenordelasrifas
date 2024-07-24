@@ -7,22 +7,28 @@ import { backendClient } from "../../edgestore/[...edgestore]/edgestore-server";
 const POST = async (request: NextRequest) => {
     const token = await getToken({ req: request, secret })
     if (token) {
-        let { nombre, imagen, id, ImagenPrev, valor } = await request.json() as Producto & { ImagenPrev: string };
+        let { nombre, imagen, id, ImagenPrev, valor, referencia } = await request.json() as Producto & { ImagenPrev: string };
         try {
-            await backendClient.publicFiles.confirmUpload({ url: imagen });
-            if (imagen != ImagenPrev) {
-                await backendClient.publicFiles.deleteFile({ url: ImagenPrev });
+            if (imagen && ImagenPrev) {
+                if (imagen != ImagenPrev) {
+                    await backendClient.publicFiles.deleteFile({ url: ImagenPrev });
+                    await backendClient.publicFiles.confirmUpload({ url: imagen });
+
+                }
+            }
+            if (imagen && !ImagenPrev) {
+                await backendClient.publicFiles.confirmUpload({ url: imagen });
             }
             const Producto = await prisma.producto.update({
                 where: { id },
                 data: {
-                    nombre, imagen, valor: +valor
+                    nombre, imagen, valor: +valor, referencia
                 }
             });
             return Response.json({ error: false, mensaje: `${Producto.nombre} modificado con éxito.` })
         } catch (error) {
             console.log(error)
-            return Response.json({ error: true, mensaje: 'Error al insertar un producto' })
+            return Response.json({ error: true, mensaje: 'Error al modificar un producto' })
         }
     }
     else

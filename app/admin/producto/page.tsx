@@ -23,7 +23,7 @@ export default function Home() {
     }, []);
     return (
         <>
-            <Grid container spacing={4} p={5} mt={2}>
+            <Grid container spacing={4} px={{ xs: 1, md: 5 }} mt={4}>
                 <Grid item xs={12}>
                     <H1Bold sx={{ fontSize: 25 }}>
                         Tus Productos
@@ -50,14 +50,17 @@ export default function Home() {
                         data={Productos.map(value => ({
                             id: value.id,
                             Producto: (
-                                <Box display='flex' minWidth={100} py={0.35}>
-                                    <Image alt="" src={value.imagen} width={60} height={60} objectFit="cover" layout="fixed" style={{ borderRadius: 10 }} />
+                                <Box display='flex' minWidth={250} py={0.35}>
+                                    <Box width={70} height={70} minWidth={70} position='relative'>
+                                        <Image alt="" src={value.imagen} objectFit="cover" layout="fill" style={{ borderRadius: 10 }} />
+                                    </Box>
                                     <Box px={2}>
                                         <Bold>{value.nombre}</Bold>
                                     </Box>
                                 </Box>
                             ),
                             Valor: `${value.valor} BOB`,
+                            Referencia: value.referencia || 'Sin referencia',
                             "Creado el": dayjs(value.createdAt).format('DD/MM/YYYY [ a las ] HH:mm:ss'),
                             "": (<ButtonFilled onClick={() => {
                                 setProducto(value);
