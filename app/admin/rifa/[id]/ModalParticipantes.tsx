@@ -55,7 +55,7 @@ export default function ModalParticipantes({ setOpen, open, codigoempiezo, rifaI
                     </H1Bold>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={4}>
-                            <QRCode style={{ borderRadius: 16, width: "80%", height: "80%", margin: '0 auto', display: 'block' }} value={`${window.location.hostname + ':' + window.location.port}/ticket/${watch('codigo')}`} />
+                            <QRCode style={{ borderRadius: 16, width: "80%", height: "80%", margin: '0 auto', display: 'block' }} value={`${window.location.hostname + ':' + window.location.port || 80}/ticket/${watch('codigo')}`} />
                             <Normal mt={2}>Código: {watch('codigo')}</Normal>
                             <Normal>A nombre de: {watch('nombre') || 'Anónimo'}</Normal>
                         </Grid>
