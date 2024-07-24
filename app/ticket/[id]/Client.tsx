@@ -23,11 +23,11 @@ export default function Client({ Ticket }: Props) {
                         Regresar
                     </ButtonOutline>
                 </Grid>
-                <Grid item xs={12} >
+                <Grid item xs={7} mx='auto' >
                     <H1Bold sx={{ mb: 2, textAlign: 'center' }}>
                         Ticket Disponible
                     </H1Bold>
-                    <QRCode style={{ borderRadius: 16, width: 400, height: 400, margin: '0 auto', display: 'block' }} value={`${window.location.hostname + ':' + window.location.port}/ticket/${Ticket.codigo}`} />
+                    <QRCode style={{ borderRadius: 16, width: 200, height: 200, margin: '0 auto', display: 'block' }} value={`${window.location.hostname}/ticket/${Ticket.codigo}`} />
                     <Normal>
                         <b>Código: </b>{Ticket.codigo}
                     </Normal>
@@ -35,8 +35,12 @@ export default function Client({ Ticket }: Props) {
                         <b>A nombre de: </b>{Ticket.nombre || 'Anónimo'}
                     </Normal>
                 </Grid>
-                <Grid xs={12}>
-                    <ButtonFilled sx={{ display: 'block', mx: 'auto' }} endIcon={<CgEye />}>Ver Rifa</ButtonFilled>
+                <Grid xs={6} mx='auto' mt={6}>
+                    <ButtonFilled
+                        onClick={() => {
+                            router.push('/rifa/' + Ticket.rifaId)
+                        }}
+                        fullWidth endIcon={<CgEye />}>Ver Rifa</ButtonFilled>
                 </Grid>
             </Grid>
         </>

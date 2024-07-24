@@ -10,11 +10,14 @@ import { MdOutlineKeyboardArrowLeft } from 'react-icons/md';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { TbSquareRoundedNumber1Filled, TbSquareRoundedNumber2Filled, TbSquareRoundedNumber3Filled } from 'react-icons/tb';
+import Link from 'next/link';
+import ModalReembolsos from './ModalReembolso';
 interface Props {
     Rifa: Rifa & { Ticket: Ticket[], DetalleRifa: (DetalleRifa & { Producto: Producto })[] };
 }
 export default function Client({ Rifa }: Props) {
     const router = useRouter();
+    const [open, setOpen] = useState(false);
     return (
         <>
             <Grid container my={4} px={2}>
@@ -87,12 +90,16 @@ export default function Client({ Rifa }: Props) {
                             <ChipBox label={`Estado: ${Rifa.modo?.toUpperCase()}`} />
                             <br />
                             <Stack direction='row' spacing={2} mt={2}>
-                                <ButtonFilled>
-                                    Unirme al grupo
-                                </ButtonFilled>
+                                {
+                                    <Link href='/' target='_blank'>
+                                        <ButtonFilled>
+                                            Unirme al grupo
+                                        </ButtonFilled>
+                                    </Link>
+                                }
                                 {
                                     Rifa.monto > 5 ?
-                                        <ButtonOutline>
+                                        <ButtonOutline onClick={() => { setOpen(true) }}>
                                             Solicitar reembolso
                                         </ButtonOutline> : null
                                 }
@@ -101,7 +108,7 @@ export default function Client({ Rifa }: Props) {
                     </Grid>
                 </Grid>
                 <Grid xs={12} sm={6} px={2}>
-                    <H1Bold sx={{ textAlign: 'center' }}>
+                    <H1Bold sx={{ textAlign: 'center', mt: { xs: 5, md: 0 } }}>
                         Lista de participantes
                     </H1Bold>
                     <List>
@@ -116,8 +123,7 @@ export default function Client({ Rifa }: Props) {
                     </List>
                 </Grid>
             </Grid>
+            <ModalReembolsos open={open} setOpen={setOpen} />
         </>
-
-
     );
 }

@@ -142,7 +142,7 @@ const ButtonFilled = styled(Button)(() => {
 
 const ButtonOutline = styled(Button)(() => {
     return {
-        fontSize: 14,
+        fontSize: 16,
         borderRadius: 18,
         color: red[400],
         border: `1px solid ${red[50]}`,
