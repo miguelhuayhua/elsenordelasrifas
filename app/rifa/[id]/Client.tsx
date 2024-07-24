@@ -1,6 +1,5 @@
 'use client';
 import { Box, Grid, List, ListItem, ListItemText, Stack } from '@mui/material';
-import { GiPodiumSecond, GiPodiumThird, GiPodiumWinner } from "react-icons/gi";
 import { DetalleRifa, Producto, Rifa, Ticket } from '@prisma/client';
 import { Bold, H1Bold, Normal } from '@/app/componentes/Letras';
 import 'react-quill/dist/quill.snow.css';

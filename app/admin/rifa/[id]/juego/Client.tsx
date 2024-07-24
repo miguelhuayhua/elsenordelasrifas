@@ -1,6 +1,5 @@
 'use client';
 import { Box, Grid, Stack } from '@mui/material';
-import { GiPodiumSecond, GiPodiumThird, GiPodiumWinner } from "react-icons/gi";
 import { DetalleRifa, Producto, Rifa, Ticket } from '@prisma/client';
 import { Bold, H1Bold, Normal } from '@/app/componentes/Letras';
 import Image from 'next/legacy/image';
@@ -35,10 +34,11 @@ export default function Client({ Rifa }: Props) {
                         <Grid item xs={4}>
                             {
                                 Rifa.DetalleRifa[1] ? <>
-                                    <Box display='flex' justifyContent='center'><GiPodiumSecond fontSize={50} color='#a0a0a0' /></Box>
+                                    <Box display='flex' justifyContent='center'>
+                                        <TbSquareRoundedNumber2Filled fontSize={45} style={{ color: "#a0a0a0" }} />
+                                    </Box>
                                     <Image style={{ borderRadius: 8 }} src={Rifa.DetalleRifa[1].Producto.imagen} width={100} objectFit='cover' height={100} layout="responsive" />
-                                    <Bold sx={{ fontSize: 18, mt: 0.5, display: 'flex', alignItems: 'center' }}>
-                                        <TbSquareRoundedNumber2Filled fontSize={25} style={{ marginRight: 5, color: "#a0a0a0" }} />
+                                    <Bold sx={{ fontSize: 16, mt: 0.5, }}>
                                         {Rifa.DetalleRifa[1].Producto.nombre}
                                     </Bold>
                                     {
@@ -56,10 +56,11 @@ export default function Client({ Rifa }: Props) {
                         <Grid item xs={4}>
                             {
                                 Rifa.DetalleRifa[0] ? <>
-                                    <Box display='flex' justifyContent='center'><GiPodiumWinner fontSize={50} color='#f7b800' /></Box>
+                                    <Box display='flex' justifyContent='center'>
+                                        <TbSquareRoundedNumber1Filled fontSize={45} style={{ color: "#f7b800" }} />
+                                    </Box>
                                     <Image style={{ borderRadius: 8 }} src={Rifa.DetalleRifa[0].Producto.imagen} width={100} objectFit='cover' height={100} layout="responsive" />
-                                    <Bold sx={{ fontSize: 18, mt: 0.5, display: 'flex', alignItems: 'center' }}>
-                                        <TbSquareRoundedNumber1Filled fontSize={25} style={{ marginRight: 5, color: "#f7b800" }} />
+                                    <Bold sx={{ fontSize: 16, mt: 0.5, }}>
                                         {Rifa.DetalleRifa[0].Producto.nombre}
                                     </Bold>
                                     {
@@ -77,10 +78,11 @@ export default function Client({ Rifa }: Props) {
                         <Grid item xs={4}>
                             {
                                 Rifa.DetalleRifa[2] ? <>
-                                    <Box display='flex' justifyContent='center'><GiPodiumThird fontSize={50} color='#ce783c' /></Box>
+                                    <Box display='flex' justifyContent='center'>
+                                        <TbSquareRoundedNumber3Filled fontSize={45} style={{ color: "#ce783c" }} />
+                                    </Box>
                                     <Image style={{ borderRadius: 8 }} src={Rifa.DetalleRifa[2].Producto.imagen} width={100} height={100} objectFit='cover' layout="responsive" />
-                                    <Bold sx={{ fontSize: 18, mt: 0.5, display: 'flex', alignItems: 'center' }}>
-                                        <TbSquareRoundedNumber3Filled fontSize={25} style={{ marginRight: 5, color: "#ce783c" }} />
+                                    <Bold sx={{ fontSize: 16, mt: 0.5, }}>
                                         {Rifa.DetalleRifa[2].Producto.nombre}
                                     </Bold>
                                     {
