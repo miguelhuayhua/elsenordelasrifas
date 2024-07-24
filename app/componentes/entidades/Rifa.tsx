@@ -14,10 +14,15 @@ const RifaBox = ({ Rifa }: Props) => {
     const router = useRouter();
     return (
         <BoxPaper sx={{ opacity: Rifa.estado ? 1 : 0.6, bgcolor: grey[100] }} >
-            <Image objectFit="cover" src={Rifa.DetalleRifa[0].Producto.imagen} width={100} height={100} layout="responsive" />
+            {Rifa.DetalleRifa[0] ? <Image objectFit="cover" src={Rifa.DetalleRifa[0].Producto.imagen} width={100} height={100} layout="responsive" /> : null}
             <Box p={0.5}>
                 <Normal>
-                    <b>Premio mayor: </b> {Rifa.DetalleRifa[0].Producto.nombre}
+                    {
+                        Rifa.DetalleRifa[0] ? <>
+                            <b>Premio mayor: </b> {Rifa.DetalleRifa[0].Producto.nombre}
+                        </> : 'Sin asignar'
+
+                    }
                 </Normal>
                 <Bold>Participantes:</Bold>
                 <Bold sx={{ color: indigo[400] }}>

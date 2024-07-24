@@ -7,12 +7,12 @@ import { backendClient } from "../../edgestore/[...edgestore]/edgestore-server";
 const POST = async (request: NextRequest) => {
     const token = await getToken({ req: request, secret })
     if (token) {
-        let { nombre, imagen } = await request.json() as Producto;
+        let { nombre, imagen, valor } = await request.json() as Producto;
         try {
             await backendClient.publicFiles.confirmUpload({ url: imagen });
             const Producto = await prisma.producto.create({
                 data: {
-                    nombre, imagen
+                    nombre, imagen, valor: +valor
                 }
             });
             return Response.json({ error: false, mensaje: `${Producto.nombre} creado con éxito.` })

@@ -23,7 +23,7 @@ export default function Home() {
     }, []);
     return (
         <>
-            <Grid container spacing={4} p={5}>
+            <Grid container spacing={4} p={5} mt={2}>
                 <Grid item xs={12}>
                     <H1Bold sx={{ fontSize: 25 }}>
                         Tus Productos
@@ -57,6 +57,7 @@ export default function Home() {
                                     </Box>
                                 </Box>
                             ),
+                            Valor: `${value.valor} BOB`,
                             "Creado el": dayjs(value.createdAt).format('DD/MM/YYYY [ a las ] HH:mm:ss'),
                             "": (<ButtonFilled onClick={() => {
                                 setProducto(value);

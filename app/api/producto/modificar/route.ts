@@ -7,7 +7,7 @@ import { backendClient } from "../../edgestore/[...edgestore]/edgestore-server";
 const POST = async (request: NextRequest) => {
     const token = await getToken({ req: request, secret })
     if (token) {
-        let { nombre, imagen, id, ImagenPrev } = await request.json() as Producto & { ImagenPrev: string };
+        let { nombre, imagen, id, ImagenPrev, valor } = await request.json() as Producto & { ImagenPrev: string };
         try {
             await backendClient.publicFiles.confirmUpload({ url: imagen });
             if (imagen != ImagenPrev) {
@@ -16,7 +16,7 @@ const POST = async (request: NextRequest) => {
             const Producto = await prisma.producto.update({
                 where: { id },
                 data: {
-                    nombre, imagen
+                    nombre, imagen, valor: +valor
                 }
             });
             return Response.json({ error: false, mensaje: `${Producto.nombre} modificado con éxito.` })

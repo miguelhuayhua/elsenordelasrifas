@@ -12,9 +12,8 @@ import { toUpperCase } from '@/app/utils/filtros';
 import Image from 'next/image';
 import { useFilePicker } from "use-file-picker";
 import { useEdgeStore } from '@/providers/EdgeStoreProvider';
-import { amber } from '@mui/material/colors';
+import { amber, red } from '@mui/material/colors';
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
 interface Props {
     open: boolean;
     setOpen: any;
@@ -86,16 +85,31 @@ export default function ModalProducto({ setOpen, open, Producto }: Props) {
                     <H1Bold sx={{ fontSize: 22 }} mb={2}>
                         Añadir Producto
                     </H1Bold>
-
-                    <BoxPaper mb={2} width={200} height={200} mx='auto'>
+                    <BoxPaper mb={2} width={200} height={200} mx='auto' border={`1px solid ${red[100]}`}>
                         <ButtonSimple sx={{ height: "100%", width: "100%" }} onClick={() => logoZone.openFilePicker()}>
-                            <Image alt='' src={watch('imagen') ? watch('imagen')! : '/default-profile.jpg'} layout="fill" objectFit="cover" />
+                            {watch('imagen') ? <Image alt='' src={watch('imagen')!} layout="fill" objectFit="cover" /> : null}
                             <BoxVertical>
                                 <IoMdCamera fontSize={30} color={amber[900]} />
                                 <span style={{ color: amber[900], fontSize: 10.5 }}>Subir Imagen</span>
                             </BoxVertical>
                         </ButtonSimple>
                     </BoxPaper>
+                    <Controller
+                        name={"valor"}
+                        control={control}
+                        rules={{ required: 'Nombre es requerido' }}
+                        render={({ field: { ref, ...field } }) => (
+                            <InputBox
+                                {...field}
+                                InputProps={{endAdornment:'BOB'}}
+                                inputRef={ref}
+                                label='Valor del producto'
+                                helperText={errors.valor?.message}
+                                error={!!errors.valor}
+                                onChange={ev => field.onChange(parseInt(ev.target.value))}
+                            />
+                        )}
+                    />
                     <Controller
                         name={"nombre"}
                         control={control}

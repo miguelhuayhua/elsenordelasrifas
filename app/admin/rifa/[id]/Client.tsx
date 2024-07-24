@@ -1,12 +1,12 @@
 'use client';
-import { MdCelebration, MdOutlineKeyboardArrowLeft, MdOutlineLocationOn } from 'react-icons/md';
-import { Grid, Stack } from '@mui/material';
+import { MdCelebration, MdOutlineKeyboardArrowLeft } from 'react-icons/md';
+import { Box, Grid, Stack } from '@mui/material';
 import { Controller, useForm } from 'react-hook-form';
 import { useModal } from '@/providers/ModalProvider';
 import { useSnackbar } from '@/providers/SnackBarProvider';
 import { DetalleRifa, Producto, Rifa, Ticket } from '@prisma/client';
 import { Bold, H1Bold } from '@/app/componentes/Letras';
-import { BoxPaper, ButtonFilled, ButtonOutline, ButtonSimple, ChipBox, InputBox } from '@/app/componentes/Cajas';
+import { BoxPaper, ButtonFilled, ButtonOutline, ButtonSimple, ChipBox, InputBox, InputLabelStyled } from '@/app/componentes/Cajas';
 import { parseNumber, parsePhone } from '@/app/utils/filtros';
 import { useState } from 'react';
 import axios from 'axios';
@@ -19,6 +19,10 @@ import { TbReload, TbSquareRoundedNumber1Filled, TbSquareRoundedNumber2Filled, T
 import { useRouter } from 'next/navigation';
 import { red } from '@mui/material/colors';
 import { BiTrash } from 'react-icons/bi';
+import 'react-quill/dist/quill.snow.css';
+import dynamic from "next/dynamic";
+import EditorSkeleton from '@/app/Editor';
+const Editor = dynamic(() => import('react-quill').then((module) => module.default), { ssr: false, loading: () => <EditorSkeleton /> });
 interface Props {
     Rifa: Rifa & { Ticket: Ticket[], DetalleRifa: (DetalleRifa & { Producto: Producto })[] }
 }
@@ -114,6 +118,31 @@ export default function Client({ Rifa }: Props) {
                                 error={!!errors.monto}
                                 onChange={ev => field.onChange(parseNumber(ev.target.value))}
                             />
+                        )}
+                    />
+                    <Controller
+                        name="descripcion"
+                        control={control}
+                        render={({ field }) => (
+                            <Box>
+                                <InputLabelStyled sx={{ mb: 1 }}>
+                                    Descripción:
+                                </InputLabelStyled>
+                                <Editor
+                                    value={field.value}
+                                    modules={{
+                                        toolbar: [
+                                            [{ 'header': [2, 3, 4, 5, false] }],
+                                            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                                            [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+                                            ['link'],
+                                        ]
+                                    }}
+                                    preserveWhitespace
+                                    className="editor"
+                                    onChange={(value) => { field.onChange(value) }}
+                                />
+                            </Box>
                         )}
                     />
                     <Controller

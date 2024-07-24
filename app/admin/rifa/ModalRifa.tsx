@@ -7,13 +7,16 @@ import { useModal } from '@/providers/ModalProvider';
 import { useSnackbar } from '@/providers/SnackBarProvider';
 import { DetalleRifa, Producto, Rifa } from '@prisma/client';
 import { Bold, H1Bold } from '@/app/componentes/Letras';
-import { BoxPaper, ButtonFilled, ButtonSimple, InputBox } from '@/app/componentes/Cajas';
+import { BoxPaper, ButtonFilled, ButtonSimple, InputBox, InputLabelStyled } from '@/app/componentes/Cajas';
 import { parseNumber, parsePhone } from '@/app/utils/filtros';
-import { purple } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ModalProductoRifa from './ProductoRifa';
-import { useRouter } from 'next/navigation';
+import 'react-quill/dist/quill.snow.css';
+import dynamic from "next/dynamic";
+import EditorSkeleton from '@/app/Editor';
+const Editor = dynamic(() => import('react-quill').then((module) => module.default), { ssr: false, loading: () => <EditorSkeleton /> });
+
 interface Props {
     open: boolean;
     setOpen: any;
@@ -108,6 +111,31 @@ export default function ModalRifa({ setOpen, open }: Props) {
                                         error={!!errors.monto}
                                         onChange={ev => field.onChange(parsePhone(ev.target.value))}
                                     />
+                                )}
+                            />
+                            <Controller
+                                name="descripcion"
+                                control={control}
+                                render={({ field }) => (
+                                    <Box>
+                                        <InputLabelStyled sx={{ mb: 1 }}>
+                                            Descripción:
+                                        </InputLabelStyled>
+                                        <Editor
+                                            value={field.value}
+                                            modules={{
+                                                toolbar: [
+                                                    [{ 'header': [2, 3, 4, 5, false] }],
+                                                    ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+                                                    [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'indent': '-1' }, { 'indent': '+1' }],
+                                                    ['link'],
+                                                ]
+                                            }}
+                                            preserveWhitespace
+                                            className="editor"
+                                            onChange={(value) => { field.onChange(value) }}
+                                        />
+                                    </Box>
                                 )}
                             />
                         </Grid>

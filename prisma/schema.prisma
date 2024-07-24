@@ -15,6 +15,7 @@ model Rifa {
   tercero       String?
   totalIngresos Float         @default(0)
   participantes Int
+  descripcion   String        @default("")
   codigoempiezo Int
   Ticket        Ticket[]
   DetalleRifa   DetalleRifa[]
@@ -36,6 +37,7 @@ model Producto {
   id          String        @id @default(auto()) @map("_id") @db.ObjectId
   nombre      String
   estado      Boolean       @default(true)
+  valor       Float         @default(0)
   imagen      String
   DetalleRifa DetalleRifa[]
   createdAt   DateTime?     @default(now())
