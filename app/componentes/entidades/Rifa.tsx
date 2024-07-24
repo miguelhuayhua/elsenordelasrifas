@@ -3,7 +3,7 @@ import { BoxPaper, ButtonFilled } from "../Cajas"
 import { Bold, Cursive, Normal } from "../Letras";
 import Image from "next/legacy/image";
 import { Box } from "@mui/material";
-import { indigo, red } from "@mui/material/colors";
+import { grey, indigo, red } from "@mui/material/colors";
 import { useRouter } from "next/navigation";
 import { MdRemoveRedEye } from "react-icons/md";
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 const RifaBox = ({ Rifa }: Props) => {
     const router = useRouter();
     return (
-        <BoxPaper sx={{ opacity: Rifa.estado ? 1 : 0.6 }} >
+        <BoxPaper sx={{ opacity: Rifa.estado ? 1 : 0.6, bgcolor: grey[100] }} >
             <Image objectFit="cover" src={Rifa.DetalleRifa[0].Producto.imagen} width={100} height={100} layout="responsive" />
             <Box p={0.5}>
                 <Normal>

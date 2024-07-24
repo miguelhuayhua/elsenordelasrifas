@@ -21,10 +21,8 @@ const handler = NextAuth({
                     }
 
                 });
-                console.log(res)
                 if (res) {
                     if (bcrypt.compareSync(password as string, res.password)) {
-                        console.log('entra')
                         return {
                             id: res.id,
                             name: res.usuario

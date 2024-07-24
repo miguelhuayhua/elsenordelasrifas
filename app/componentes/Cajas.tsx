@@ -1,5 +1,5 @@
-import { Box, Button, Checkbox, Chip, InputLabel, MenuItem, Select, Slider, Switch, TextField, styled } from "@mui/material";
-import { amber, blueGrey, grey, red, indigo, pink } from "@mui/material/colors";
+import { Box, Button, Checkbox, Chip, InputLabel, MenuItem, Switch, TextField, styled } from "@mui/material";
+import { grey, red, indigo } from "@mui/material/colors";
 import { DatePicker, MobileTimePicker } from "@mui/x-date-pickers";
 
 const BoxVertical = styled(Box)(() =>
@@ -21,7 +21,6 @@ const BoxPaper = styled(Box)(({ theme }) =>
 ({
     borderRadius: "15px !important",
     overflow: 'hidden',
-    border: `1px solid ${indigo[100]}`,
     background: grey[50]
 
 }));
@@ -119,7 +118,6 @@ const MenuItemStyled = styled(MenuItem)(() => {
     return {
         fontSize: 13,
         overflow: 'hidden',
-        fontFamily: 'inherit',
         display: 'flex !important',
         fontWeight: 600,
         '&.Mui-selected': { fontWeight: 700 },
@@ -183,17 +181,17 @@ const SwitchStyled = styled(Switch)(({ theme }) => ({
         },
 
         '&.Mui-disabled + .MuiSwitch-track': {
-            opacity: theme.palette.mode === 'light' ? 0.7 : 0.3,
+            opacity: 0.7
         },
     },
     '& .MuiSwitch-thumb': {
         width: 22,
         height: 22,
-        background: theme.palette.mode == 'light' ? grey[50] : grey[900]
+        background: grey[50]
     },
     '& .MuiSwitch-track': {
         borderRadius: 26 / 2,
-        backgroundColor: theme.palette.mode === 'light' ? grey[300] : grey[600],
+        backgroundColor: grey[300],
         opacity: 1,
         transition: theme.transitions.create(['background-color'], {
             duration: 500,

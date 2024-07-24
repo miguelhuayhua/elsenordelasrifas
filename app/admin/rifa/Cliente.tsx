@@ -6,7 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Tabla from "../componentes/Tabla";
-import { ButtonFilled, SwitchStyled } from "@/app/componentes/Cajas";
+import { ButtonFilled, ButtonOutline, SwitchStyled } from "@/app/componentes/Cajas";
 import { MdAdd } from "react-icons/md";
 import ModalRifa from "./ModalRifa";
 import { TbReload } from "react-icons/tb";
@@ -59,7 +59,7 @@ export default function Client({ Rifas }: Props) {
                             'Total reunido': value.modo == 'terminado' ? value.totalIngresos + " BOB" : `${value.Ticket.length * value.monto} BOB`,
                             '': (
                                 <Stack direction='row' spacing={2}>
-                                    <ButtonFilled onClick={() => {
+                                    <ButtonOutline onClick={() => {
                                         openModal({
                                             titulo: '¿Continuar?',
                                             content: 'Se eliminará la rifa',
@@ -74,16 +74,11 @@ export default function Client({ Rifas }: Props) {
                                                 return true;
                                             }
                                         });
-                                    }}><BiTrash /></ButtonFilled>
+                                    }}><BiTrash fontSize={18} /></ButtonOutline>
                                     <ButtonFilled onClick={() => router.push('/admin/rifa/' + value.id)}>
                                         <FaEye />
                                     </ButtonFilled>
-                                    <SwitchStyled checked={value.estado} onChange={(ev, checked) => {
-                                        axios.post('/api/rifa/estado', { id: value.id, checked }).then(res => {
-                                            openSnackbar(res.data.mensaje);
-                                            router.refresh();
-                                        })
-                                    }} />
+
                                 </Stack>
                             )
                         }))}>

@@ -4,6 +4,7 @@ import { NextAuthProvider } from '@/providers/AuthProvider';
 import DatePickerProvider from '@/providers/DatePickerProvider';
 import { EdgeStoreProvider } from '@/providers/EdgeStoreProvider';
 import ThemeProviderCustom from '@/providers/ThemeProvider';
+import ModalBienvenida from './ModalBienvenida';
 export default function RootLayout({ children }: any) {
   return (
     <html lang="es" >
@@ -14,6 +15,7 @@ export default function RootLayout({ children }: any) {
               <EdgeStoreProvider>
                 <DatePickerProvider>
                   {children}
+                  <ModalBienvenida />
                 </DatePickerProvider>
               </EdgeStoreProvider>
             </AppRouterCacheProvider>

@@ -3,14 +3,11 @@ import Dialog from '@mui/material/Dialog';
 import { Box } from '@mui/material';
 import { H1Bold, Normal } from '@/app/componentes/Letras';
 import { ButtonOutline } from '@/app/componentes/Cajas';
-
 interface Props {
     open: boolean;
     setOpen: any;
 }
 export default function ModalAyuda({ setOpen, open }: Props) {
-
-
     return (
         <>
             <Dialog

@@ -12,15 +12,14 @@ import { parseNumber, parsePhone } from '@/app/utils/filtros';
 import { purple } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Tabla from '../componentes/Tabla';
-import dayjs from 'dayjs';
-import Image from 'next/image';
 import ModalProductoRifa from './ProductoRifa';
+import { useRouter } from 'next/navigation';
 interface Props {
     open: boolean;
     setOpen: any;
 }
 export default function ModalRifa({ setOpen, open }: Props) {
+    const router = useRouter();
     const { openModal } = useModal();
     const { openSnackbar } = useSnackbar();
     const [Podio, setPodio] = useState({ nro: 0, open: false });
@@ -42,6 +41,7 @@ export default function ModalRifa({ setOpen, open }: Props) {
                     openSnackbar(res.data.mensaje);
                     if (!res.data.error) {
                         setOpen(false);
+                        router.refresh();
                     }
                 });
                 return true;

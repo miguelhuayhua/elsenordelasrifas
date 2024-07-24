@@ -13,7 +13,7 @@ import { ButtonFilled, ButtonSimple, InputBox } from "../componentes/Cajas";
 export default function Home() {
     const [showPassword, setShowPassword] = React.useState(false);
     //controlador de eventos para el submit
-    const { handleSubmit, control, formState: { errors } } = useForm<{ usuario: string, password: string }>({
+    const { handleSubmit, control, setError, formState: { errors } } = useForm<{ usuario: string, password: string }>({
         defaultValues: { usuario: '', password: '' }
     });
 
@@ -28,10 +28,8 @@ export default function Home() {
             <Box
                 component={'form'}
                 onSubmit={handleSubmit((data) => {
-                    signIn('credentials', { redirect: true, callbackUrl: '/admin', ...data }).then(res => {
-                        console.log(res)
-                    }).catch(error => {
-                        console.log(error)
+                    signIn('credentials', { redirect: true, callbackUrl: '/admin', ...data }).catch(error => {
+                        setError('usuario', { message: 'Usuario inválido' });
                     })
                 })}
                 maxWidth={400}
