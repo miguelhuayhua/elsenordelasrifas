@@ -3,6 +3,7 @@ import { Box, Grid, List, ListItem, ListItemText, Stack } from '@mui/material';
 import { GiPodiumSecond, GiPodiumThird, GiPodiumWinner } from "react-icons/gi";
 import { DetalleRifa, Producto, Rifa, Ticket } from '@prisma/client';
 import { Bold, H1Bold, Normal } from '@/app/componentes/Letras';
+import 'react-quill/dist/quill.snow.css';
 import Image from 'next/legacy/image';
 import { indigo, red } from '@mui/material/colors';
 import { ButtonFilled, ButtonOutline, ChipBox } from '@/app/componentes/Cajas';
@@ -11,6 +12,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { TbSquareRoundedNumber1Filled, TbSquareRoundedNumber2Filled, TbSquareRoundedNumber3Filled } from 'react-icons/tb';
 import Link from 'next/link';
+import HTMLReactParser from "html-react-parser";
 import ModalReembolsos from './ModalReembolso';
 interface Props {
     Rifa: Rifa & { Ticket: Ticket[], DetalleRifa: (DetalleRifa & { Producto: Producto })[] };
@@ -104,11 +106,17 @@ export default function Client({ Rifa }: Props) {
                                         </ButtonOutline> : null
                                 }
                             </Stack>
+                            <H1Bold mt={2}>
+                                Descripción:
+                            </H1Bold>
+                            <Box className='ql-editor'>
+                                {Rifa.descripcion ? HTMLReactParser(Rifa.descripcion) : 'Sin descripción'}
+                            </Box>
                         </Grid>
                     </Grid>
                 </Grid>
                 <Grid xs={12} sm={6} px={2}>
-                    <H1Bold sx={{ textAlign: 'center', mt: { xs: 5, md: 0 } }}>
+                    <H1Bold sx={{ textAlign: 'center', fontSize: 16, color: red[400] }}>
                         Lista de participantes
                     </H1Bold>
                     <List>
