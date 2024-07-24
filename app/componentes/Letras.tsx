@@ -21,9 +21,8 @@ const Bold = styled(Typography)(({ theme }) => {
 });
 const Cursive = styled(Typography)(() => {
     return {
-        fontWeight: 200,
         fontStyle: 'oblique',
-        fontSize: 14,
+        fontSize: 15,
         textAlign: 'center',
         margin: '10px 0',
     }
