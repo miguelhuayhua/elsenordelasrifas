@@ -3,7 +3,7 @@ import { Box, Grid, Stack } from '@mui/material';
 import { DetalleRifa, Producto, Rifa, Ticket } from '@prisma/client';
 import { Bold, H1Bold, Normal } from '@/app/componentes/Letras';
 import Image from 'next/legacy/image';
-import { ButtonFilled, ButtonSimple, ChipBox, InputBox } from '@/app/componentes/Cajas';
+import { ButtonFilled, ButtonOutline, ButtonSimple, ChipBox, InputBox } from '@/app/componentes/Cajas';
 import { FaDiceThree, FaExplosion } from 'react-icons/fa6';
 import { amber, red } from '@mui/material/colors';
 import { useState } from 'react';
@@ -18,7 +18,7 @@ interface Props {
 }
 export default function Client({ Rifa }: Props) {
     const [codigo, setCodigo] = useState(new Array(Rifa.codigoempiezo.toString().length).fill(''));
-    const [elegido, setElegido] = useState<{ estado: 'fuera' | 'ganador' | 'segundo' | 'tecer' | '', Ganador: Partial<Ticket>, Segundo: Partial<Ticket>, Tercero: Partial<Ticket> }>({ estado: '', Ganador: {}, Segundo: {}, Tercero: {} })
+    const [elegido, setElegido] = useState<{ Ganador: Partial<Ticket>, Segundo: Partial<Ticket>, Tercero: Partial<Ticket>, Eliminado: Partial<Ticket> }>({ Ganador: {}, Segundo: {}, Tercero: {}, Eliminado: {} })
     const [rifa, setRifa] = useState(Rifa);
     const { openModal } = useModal();
     const { openSnackbar } = useSnackbar();
@@ -112,7 +112,8 @@ export default function Client({ Rifa }: Props) {
                     <Box display='flex' flexWrap='wrap'>
                         <ButtonFilled
                             onClick={() => {
-                                let find = rifa.Ticket.filter(value => value.estado)[Math.floor(Math.random() * rifa.Ticket.filter(value => value.estado).length)];
+                                let find = rifa.Ticket.filter(value => value.estado)[Math.floor(Math.random() * rifa.Ticket.filter(value => value.estado).length)] || {};
+                                setElegido(prev => ({ ...prev, Eliminado: find }));
                                 setCodigo([...find.codigo.toString().split('')]);
                                 setRifa(prev => ({ ...prev, Ticket: prev.Ticket.map(value => find.codigo == value.codigo ? ({ ...value, estado: false }) : (value)) }))
                             }}
@@ -121,7 +122,7 @@ export default function Client({ Rifa }: Props) {
                         </ButtonFilled>
                         <ButtonSimple endIcon={<TbSquareRoundedNumber1Filled />}
                             onClick={() => {
-                                let find = rifa.Ticket.filter(value => value.estado)[Math.floor(Math.random() * rifa.Ticket.length)];
+                                let find = rifa.Ticket.filter(value => value.estado)[Math.floor(Math.random() * rifa.Ticket.filter(value => value.estado).length)] || {};
                                 setCodigo([...find.codigo.toString().split('')]);
                                 setElegido(prev => ({ ...prev, Ganador: find }));
                                 setRifa(prev => ({ ...prev, Ticket: prev.Ticket.filter(value => value.codigo != find.codigo) }));
@@ -132,7 +133,7 @@ export default function Client({ Rifa }: Props) {
                         </ButtonSimple>
                         <ButtonSimple
                             onClick={() => {
-                                let find = rifa.Ticket.filter(value => value.estado)[Math.floor(Math.random() * rifa.Ticket.length)];
+                                let find = rifa.Ticket.filter(value => value.estado)[Math.floor(Math.random() * rifa.Ticket.filter(value => value.estado).length)] || {};
                                 setCodigo([...find.codigo.toString().split('')]);
                                 setElegido(prev => ({ ...prev, Segundo: find }));
                                 setRifa(prev => ({ ...prev, Ticket: prev.Ticket.filter(value => value.codigo != find.codigo) }));
@@ -144,7 +145,7 @@ export default function Client({ Rifa }: Props) {
                         </ButtonSimple>
                         <ButtonSimple
                             onClick={() => {
-                                let find = rifa.Ticket.filter(value => value.estado)[Math.floor(Math.random() * rifa.Ticket.length)];
+                                let find = rifa.Ticket.filter(value => value.estado)[Math.floor(Math.random() * rifa.Ticket.filter(value => value.estado).length)];
                                 setCodigo([...find.codigo.toString().split('')]);
                                 setElegido(prev => ({ ...prev, Tercero: find }));
                                 setRifa(prev => ({ ...prev, Ticket: prev.Ticket.filter(value => value.codigo != find.codigo) }));
@@ -163,6 +164,51 @@ export default function Client({ Rifa }: Props) {
                             ))
                         }
                     </Stack>
+                    {
+                        elegido.Eliminado.id ? <>
+                            <Bold mt={5} sx={{ color: red[400], textAlign: 'center', fontSize: 20 }}>
+                                Ticket: {elegido.Eliminado.codigo} Eliminado {":("}
+                                <br />
+                                {elegido.Eliminado.nombre || 'Anónimo'}
+                            </Bold>
+                        </> : null
+                    }
+                    {
+                        elegido.Ganador.id ? <>
+                            <Bold mt={5} sx={{ color: '#d4af37', textAlign: 'center', fontSize: 20 }}>
+                                Ticket: {elegido.Ganador.codigo} ganador del primer lugar
+                                <br />
+                                {elegido.Ganador.nombre || 'Anónimo'}
+                            </Bold>
+                            <ButtonOutline onClick={() => setElegido(prev => ({ ...prev, Ganador: {} }))}>
+                                Eliminar
+                            </ButtonOutline>
+                        </> : null
+                    }
+                    {
+                        elegido.Segundo.id ? <>
+                            <Bold mt={5} sx={{ color: '#909090', textAlign: 'center', fontSize: 20 }}>
+                                Ticket: {elegido.Segundo.codigo} Ganador del segundo lugar
+                                <br />
+                                {elegido.Segundo.nombre || 'Anónimo'}
+                            </Bold>
+                            <ButtonOutline onClick={() => setElegido(prev => ({ ...prev, Segundo: {} }))}>
+                                Eliminar
+                            </ButtonOutline>
+                        </> : null
+                    }
+                    {
+                        elegido.Tercero.id ? <>
+                            <Bold mt={5} sx={{ color: '#cd7f32', textAlign: 'center', fontSize: 20 }}>
+                                Ticket: {elegido.Tercero.codigo} Ganador del tercer lugar
+                                <br />
+                                {elegido.Tercero.nombre || 'Anónimo'}
+                            </Bold>
+                            <ButtonOutline onClick={() => setElegido(prev => ({ ...prev, Tercero: {} }))}>
+                                Eliminar
+                            </ButtonOutline>
+                        </> : null
+                    }
                 </Grid>
                 <Grid item xs={12} md={8} p={2}>
                     <Bold sx={{ mb: 2, fontSize: 17 }}>
