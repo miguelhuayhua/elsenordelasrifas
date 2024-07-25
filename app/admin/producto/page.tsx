@@ -47,6 +47,7 @@ export default function Home() {
                 </Grid>
                 <Grid item xs={12}>
                     <Tabla
+                        hasPagination
                         data={Productos.map(value => ({
                             id: value.id,
                             Producto: (

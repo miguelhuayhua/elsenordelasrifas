@@ -13,6 +13,7 @@ model Rifa {
   ganador       String
   segundo       String?
   tercero       String?
+  categoria     String        @default("")
   totalIngresos Float         @default(0)
   participantes Int
   descripcion   String        @default("")

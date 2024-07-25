@@ -113,6 +113,20 @@ export default function ModalRifa({ setOpen, open }: Props) {
                                 )}
                             />
                             <Controller
+                                name={"categoria"}
+                                control={control}
+                                rules={{ required: 'Introduzca su categoría' }}
+                                render={({ field: { ref, ...field } }) => (
+                                    <InputBox
+                                        {...field}
+                                        inputRef={ref}
+                                        label='Categoría'
+                                        helperText={errors.categoria?.message}
+                                        error={!!errors.categoria}
+                                    />
+                                )}
+                            />
+                            <Controller
                                 name="descripcion"
                                 control={control}
                                 render={({ field }) => (

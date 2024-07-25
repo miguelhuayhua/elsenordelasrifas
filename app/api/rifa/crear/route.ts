@@ -6,13 +6,14 @@ import { prisma } from "@/app/api/auth/client";
 const POST = async (request: NextRequest) => {
     const token = await getToken({ req: request, secret })
     if (token) {
-        let { codigoempiezo, ganador, monto, participantes, DetalleRifa, descripcion } = await request.json() as Rifa & { DetalleRifa: (DetalleRifa & { Producto: Producto })[] };
+        let { codigoempiezo, ganador, categoria, monto, participantes, DetalleRifa, descripcion } = await request.json() as Rifa & { DetalleRifa: (DetalleRifa & { Producto: Producto })[] };
         try {
             let Rifa = await prisma.rifa.create({
                 data: {
                     codigoempiezo: +codigoempiezo,
                     ganador,
                     descripcion,
+                    categoria,
                     monto: +monto,
                     participantes: +participantes,
                     DetalleRifa: { create: DetalleRifa.map(value => ({ podio: value.podio, productoId: value.productoId })) }

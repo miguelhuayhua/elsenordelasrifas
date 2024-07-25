@@ -77,7 +77,7 @@ const Tabla = ({
             cols.push({ id: value, label: value })
     }));
     return (
-        <Box px={1}>
+        <Box>
 
             {
                 hasSearch ?

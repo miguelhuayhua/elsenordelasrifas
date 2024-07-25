@@ -6,7 +6,7 @@ import { prisma } from "@/app/api/auth/client";
 const POST = async (request: NextRequest) => {
     const token = await getToken({ req: request, secret })
     if (token) {
-        let { id, participantes, DetalleRifa, descripcion } = await request.json() as Rifa & { DetalleRifa: (DetalleRifa & { Producto: Producto })[] };
+        let { id, participantes, DetalleRifa, descripcion, categoria } = await request.json() as Rifa & { DetalleRifa: (DetalleRifa & { Producto: Producto })[] };
         try {
             await prisma.detalleRifa.deleteMany({
                 where: { rifaId: id }
@@ -15,6 +15,7 @@ const POST = async (request: NextRequest) => {
                 where: { id },
                 data: {
                     participantes: +participantes,
+                    categoria,
                     descripcion,
                     DetalleRifa: { create: DetalleRifa.map(value => ({ podio: value.podio, productoId: value.productoId })) }
                 }

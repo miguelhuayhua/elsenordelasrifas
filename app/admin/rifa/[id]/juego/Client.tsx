@@ -25,7 +25,12 @@ export default function Client({ Rifa }: Props) {
     const router = useRouter();
     return (
         <>
-            <Grid container my={4} px={2} spacing={2}>
+            <Grid container my={4} px={2} spacing={4}>
+                <Grid item xs={12}>
+                    <Bold sx={{ textAlign: 'center', fontSize: 25 }}>
+                        {Rifa.categoria}
+                    </Bold>
+                </Grid>
                 <Grid item xs={12} md={6}>
                     <H1Bold sx={{ mb: 2, textAlign: 'center' }}>
                         Premios
@@ -38,16 +43,18 @@ export default function Client({ Rifa }: Props) {
                                         <TbSquareRoundedNumber2Filled fontSize={45} style={{ color: "#a0a0a0" }} />
                                     </Box>
                                     <Image style={{ borderRadius: 8 }} src={Rifa.DetalleRifa[1].Producto.imagen} width={100} objectFit='cover' height={100} layout="responsive" />
-                                    <Bold sx={{ fontSize: 16, mt: 0.5, }}>
+                                    <Normal sx={{ fontSize: 16, mt: 0.5, }}>
                                         {Rifa.DetalleRifa[1].Producto.nombre}
-                                    </Bold>
+                                    </Normal>
                                     {
                                         elegido.Segundo.id ? <>
-                                            <Normal>
+                                            <Bold mt={2}>
                                                 Ganador: {elegido.Segundo.codigo}
                                                 <br />
-                                                {elegido.Segundo.nombre || 'Anónimo'}
-                                            </Normal>
+                                                <i>
+                                                    {elegido.Segundo.nombre || 'Anónimo'}
+                                                </i>
+                                            </Bold>
                                         </> : null
                                     }
                                 </> : null
@@ -60,16 +67,16 @@ export default function Client({ Rifa }: Props) {
                                         <TbSquareRoundedNumber1Filled fontSize={45} style={{ color: "#f7b800" }} />
                                     </Box>
                                     <Image style={{ borderRadius: 8 }} src={Rifa.DetalleRifa[0].Producto.imagen} width={100} objectFit='cover' height={100} layout="responsive" />
-                                    <Bold sx={{ fontSize: 16, mt: 0.5, }}>
+                                    <Normal sx={{ fontSize: 16, mt: 0.5, }}>
                                         {Rifa.DetalleRifa[0].Producto.nombre}
-                                    </Bold>
+                                    </Normal>
                                     {
                                         elegido.Ganador.id ? <>
-                                            <Normal>
+                                            <Bold mt={2}>
                                                 Ganador: {elegido.Ganador.codigo}
                                                 <br />
-                                                {elegido.Ganador.nombre || 'Anónimo'}
-                                            </Normal>
+                                                <i>{elegido.Ganador.nombre || 'Anónimo'}</i>
+                                            </Bold>
                                         </> : null
                                     }
                                 </> : null
@@ -82,16 +89,18 @@ export default function Client({ Rifa }: Props) {
                                         <TbSquareRoundedNumber3Filled fontSize={45} style={{ color: "#ce783c" }} />
                                     </Box>
                                     <Image style={{ borderRadius: 8 }} src={Rifa.DetalleRifa[2].Producto.imagen} width={100} height={100} objectFit='cover' layout="responsive" />
-                                    <Bold sx={{ fontSize: 16, mt: 0.5, }}>
+                                    <Normal sx={{ fontSize: 16, mt: 0.5, }}>
                                         {Rifa.DetalleRifa[2].Producto.nombre}
-                                    </Bold>
+                                    </Normal>
                                     {
                                         elegido.Tercero.id ? <>
-                                            <Normal>
+                                            <Bold mt={2}>
                                                 Ganador: {elegido.Tercero.codigo}
                                                 <br />
-                                                {elegido.Tercero.nombre || 'Anónimo'}
-                                            </Normal>
+                                                <i>
+                                                    {elegido.Tercero.nombre || 'Anónimo'}
+                                                </i>
+                                            </Bold>
                                         </> : null
                                     }
                                 </> : null

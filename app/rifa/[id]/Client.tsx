@@ -13,6 +13,7 @@ import { TbSquareRoundedNumber1Filled, TbSquareRoundedNumber2Filled, TbSquareRou
 import Link from 'next/link';
 import HTMLReactParser from "html-react-parser";
 import ModalReembolsos from './ModalReembolso';
+import Navbar from '@/app/componentes/Navbar';
 interface Props {
     Rifa: Rifa & { Ticket: Ticket[], DetalleRifa: (DetalleRifa & { Producto: Producto })[] };
 }
@@ -21,6 +22,7 @@ export default function Client({ Rifa }: Props) {
     const [open, setOpen] = useState(false);
     return (
         <>
+            <Navbar />
             <Grid container my={4} px={2}>
                 <Grid item xs={12}>
                     <ButtonOutline onClick={() => router.back()} startIcon={<MdOutlineKeyboardArrowLeft />}>
@@ -28,6 +30,9 @@ export default function Client({ Rifa }: Props) {
                     </ButtonOutline>
                 </Grid>
                 <Grid item xs={12} md={6}>
+                    <Bold sx={{ textAlign: 'center', fontSize: 20 }}>
+                        {Rifa.categoria}
+                    </Bold>
                     <H1Bold sx={{ mb: 2, textAlign: 'center' }}>
                         Premios
                     </H1Bold>
@@ -118,9 +123,9 @@ export default function Client({ Rifa }: Props) {
                     </Grid>
                 </Grid>
                 <Grid xs={12} sm={6} px={2}>
-                    <H1Bold sx={{ textAlign: 'center', fontSize: 16, color: red[400] }}>
+                    <Bold sx={{ textAlign: 'center', fontSize: 20, color: red[400] }}>
                         Lista de participantes
-                    </H1Bold>
+                    </Bold>
                     <List>
                         {Rifa.Ticket.map(value => (
                             <ListItem key={value.id}>
