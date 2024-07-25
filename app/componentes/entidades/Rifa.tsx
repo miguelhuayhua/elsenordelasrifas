@@ -29,7 +29,7 @@ const RifaBox = ({ Rifa }: Props) => {
                 </Normal>
                 <Bold>Participantes:</Bold>
                 <Bold sx={{ color: indigo[400] }}>
-                    {Rifa.Ticket.length} / <span style={{ fontSize: 20, color: red[400] }}>{Rifa.participantes}</span>
+                    {Rifa.Ticket.length > Rifa.participantes ? Rifa.participantes : Rifa.Ticket.length} / <span style={{ fontSize: 20, color: red[400] }}>{Rifa.participantes}</span>
                 </Bold>
                 <Cursive>
                     Valor de inscripción: <span style={{ color: indigo[400], fontSize: 18 }}>{Rifa.monto}</span> Bs.
