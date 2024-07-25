@@ -8,7 +8,7 @@ import { useSnackbar } from '@/providers/SnackBarProvider';
 import { Producto } from '@prisma/client';
 import { H1Bold } from '@/app/componentes/Letras';
 import { BoxPaper, BoxVertical, ButtonFilled, ButtonSimple, InputBox } from '@/app/componentes/Cajas';
-import { toUpperCase } from '@/app/utils/filtros';
+import { parseNumber, toUpperCase } from '@/app/utils/filtros';
 import Image from 'next/image';
 import { useFilePicker } from "use-file-picker";
 import { useEdgeStore } from '@/providers/EdgeStoreProvider';
@@ -128,7 +128,7 @@ export default function ModalProducto({ setOpen, open, Producto }: Props) {
                                 label='Valor del producto'
                                 helperText={errors.valor?.message}
                                 error={!!errors.valor}
-                                onChange={ev => field.onChange(parseInt(ev.target.value))}
+                                onChange={ev => field.onChange(parseNumber(ev.target.value))}
                             />
                         )}
                     />
