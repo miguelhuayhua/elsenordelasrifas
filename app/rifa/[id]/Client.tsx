@@ -99,13 +99,11 @@ export default function Client({ Rifa }: Props) {
                             <ChipBox label={`Estado: ${Rifa.modo?.toUpperCase()}`} />
                             <br />
                             <Stack direction='row' spacing={2} mt={2}>
-                                {
-                                    <Link href='https://chat.whatsapp.com/BcpN3rDlRn7InCpdMMUTIQ' target='_blank'>
-                                        <ButtonFilled>
-                                            Unirme al grupo
-                                        </ButtonFilled>
-                                    </Link>
-                                }
+                                <Link href='https://chat.whatsapp.com/BcpN3rDlRn7InCpdMMUTIQ' target='_blank'>
+                                    <ButtonFilled>
+                                        Unirme al grupo
+                                    </ButtonFilled>
+                                </Link>
                                 {
                                     Rifa.monto >= 5 ?
                                         <ButtonOutline onClick={() => { setOpen(true) }}>

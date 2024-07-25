@@ -45,7 +45,7 @@ export default function ModalProductoRifa({ Podio, setPodio, setValue, watch }: 
             <Dialog
                 open={Podio.open}
                 keepMounted={false}
-                maxWidth='xs'
+                maxWidth='md'
                 fullWidth
                 onClose={() => { setPodio({ open: false, nro: 0 }) }}
             >
@@ -58,6 +58,7 @@ export default function ModalProductoRifa({ Podio, setPodio, setValue, watch }: 
                         Seleccionar producto
                     </H1Bold>
                     <Tabla
+                    hasPagination
                         data={Productos.map(value => ({
                             id: value.id,
                             Producto: (
@@ -68,6 +69,8 @@ export default function ModalProductoRifa({ Podio, setPodio, setValue, watch }: 
                                     </Box>
                                 </Box>
                             ),
+                            Valor: `${value.valor} BOB`,
+                            Referencia: value.referencia || 'Sin referencia',
                             '': (<ButtonOutline
                                 onClick={() => {
                                     setValue('DetalleRifa', [...watch('DetalleRifa').filter(value => value.podio != Podio.nro), { productoId: value.id, id: '', rifaId: '', podio: Podio.nro, Producto: value }])

@@ -1,16 +1,17 @@
 'use client';
-import { Box, Stack } from "@mui/material";
+import { Box, Link, Stack } from "@mui/material";
 import ModalAyuda from "../ModalAyuda";
 import ModalHorario from "../ModalHorario";
 import ModalReglas from "../ModalReglas";
 import ModalUbicacion from "../ModalUbicacion";
-import { ButtonOutline } from "./Cajas";
+import { ButtonFilled, ButtonOutline } from "./Cajas";
 import Image from "next/legacy/image";
 import { LuRuler } from "react-icons/lu";
 import { FaRegClock } from 'react-icons/fa6';
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import { MdOutlineLocationOn } from "react-icons/md";
 import { useState } from "react";
+import { BsWhatsapp } from "react-icons/bs";
 export default function Navbar() {
     const [open1, setOpen1] = useState(false);
     const [open2, setOpen2] = useState(false);
@@ -35,6 +36,12 @@ export default function Navbar() {
                     <LuRuler fontSize={35} />
                 </ButtonOutline>
             </Stack>
+            <Link href='https://chat.whatsapp.com/BcpN3rDlRn7InCpdMMUTIQ' target='_blank'>
+                <ButtonFilled sx={{ mx: 'auto', display: 'flex', mt: 2 }} startIcon={<BsWhatsapp />}>
+                    Accede a nuestro grupo
+                </ButtonFilled>
+            </Link>
+
             <ModalAyuda open={open1} setOpen={setOpen1} />
             <ModalHorario open={open3} setOpen={setOpen3} />
             <ModalUbicacion open={open2} setOpen={setOpen2} />

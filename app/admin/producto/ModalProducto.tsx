@@ -36,7 +36,7 @@ export default function ModalProducto({ setOpen, open, Producto }: Props) {
                         openSnackbar(res.data.mensaje);
                         if (!res.data.error) {
                             setOpen(false);
-                            reset();
+                            reset({ imagen: '', id: '', nombre: '', valor: 0 });
                         }
                     })
                     return true;
@@ -52,7 +52,7 @@ export default function ModalProducto({ setOpen, open, Producto }: Props) {
                         openSnackbar(res.data.mensaje);
                         if (!res.data.error) {
                             setOpen(false);
-                            reset();
+                            reset({ imagen: '', id: '', nombre: '', valor: 0 });
                         }
                     })
                     return true;
@@ -95,6 +95,7 @@ export default function ModalProducto({ setOpen, open, Producto }: Props) {
                                 callback() {
                                     axios.post('/api/producto/eliminar', { id: Producto?.id }).then(res => {
                                         openSnackbar(res.data.mensaje);
+                                        reset({ imagen: '', id: '', nombre: '', valor: 0 });
                                         setOpen(false);
                                     });
                                     return true;
@@ -119,15 +120,12 @@ export default function ModalProducto({ setOpen, open, Producto }: Props) {
                     <Controller
                         name={"valor"}
                         control={control}
-                        rules={{ required: 'Nombre es requerido' }}
                         render={({ field: { ref, ...field } }) => (
                             <InputBox
                                 {...field}
                                 InputProps={{ endAdornment: 'BOB' }}
                                 inputRef={ref}
                                 label='Valor del producto'
-                                helperText={errors.valor?.message}
-                                error={!!errors.valor}
                                 onChange={ev => field.onChange(parseNumber(ev.target.value))}
                             />
                         )}

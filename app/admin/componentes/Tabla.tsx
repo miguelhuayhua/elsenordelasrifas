@@ -100,7 +100,7 @@ const Tabla = ({
                     </Box>
                     : null
             }
-            <TableContainer sx={{ maxHeight: 500 }} >
+            <TableContainer sx={{ maxHeight: 700 }} >
                 {
                     Data.length > 0 ?
                         <Table

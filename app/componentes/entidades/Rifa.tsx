@@ -14,10 +14,10 @@ const RifaBox = ({ Rifa }: Props) => {
     const router = useRouter();
     return (
         <BoxPaper sx={{ opacity: Rifa.estado ? 1 : 0.6, bgcolor: grey[50] }} >
-            <Bold sx={{ textAlign: 'center', fontWeight: 900 }}>
+            <Bold sx={{ textAlign: 'center', fontWeight: 900, fontSize: 16, mb: 0.5 }}>
                 {Rifa.categoria}
             </Bold>
-            {Rifa.DetalleRifa[0] ? <Image objectFit="cover" src={Rifa.DetalleRifa[0].Producto.imagen} width={100} height={100} layout="responsive" /> : null}
+            {Rifa.DetalleRifa[0] ? <Image style={{ borderRadius: 24 }} objectFit="cover" src={Rifa.DetalleRifa[0].Producto.imagen} width={100} height={100} layout="responsive" /> : null}
             <Box p={0.5}>
                 <Normal>
                     {
