@@ -83,7 +83,7 @@ export default function ModalProducto({ setOpen, open, Producto }: Props) {
                 fullWidth
                 onClose={() => {
                     setOpen(false);
-                    reset();
+                    reset({ imagen: '', id: '', nombre: '', valor: 0 });
                 }}
             >
                 <Box p={2} component='form' onSubmit={handleSubmit(onSubmit)}>
